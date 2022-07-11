@@ -1,0 +1,10 @@
+name: Banners
+form: $/diveramkt/banners/models/banners/fields.yaml
+modelClass: Diveramkt\Banners\Models\Banners
+defaultRedirect: diveramkt/banners/banners
+create:
+    redirect: 'diveramkt/banners/banners/update/:id'
+    redirectClose: diveramkt/banners/banners
+update:
+    redirect: diveramkt/banners/banners
+    redirectClose: diveramkt/banners/banners

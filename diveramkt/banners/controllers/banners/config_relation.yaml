@@ -1,0 +1,29 @@
+clicks:
+    label: Clicks
+    manage:
+        form: $/diveramkt/banners/models/clicks/fields.yaml
+        list: $/diveramkt/banners/models/clicks/columns.yaml
+    view:
+        showSearch: true
+        showCheckboxes: false
+        recordOnClick: false
+        list: $/diveramkt/banners/models/clicks/columns.yaml
+        toolbarButtons: false
+        recordsPerPage: 5
+        defaultSort:
+            column: created_at
+            direction: desc
+categorias:
+    label: Categorias
+    manage:
+        form: $/diveramkt/banners/models/categorias/fields.yaml
+        list: $/diveramkt/banners/models/categorias/columns.yaml
+    view:
+        showSearch: true
+        showCheckboxes: true
+        recordOnClick: false
+        list: $/diveramkt/banners/models/categorias/columns.yaml
+        toolbarButtons: add|remove
+        defaultSort:
+            column: title
+            direction: desc

@@ -1,0 +1,11 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table diveramkt_banners_banners'
+    - builder_table_create_diveramkt_banners_banners.php
+1.0.3:
+    - 'Created table diveramkt_banners_clicks'
+    - builder_table_create_diveramkt_banners_clicks.php
+1.0.4:
+    - 'Created table diveramkt_banners_categorias'
+    - builder_table_create_diveramkt_banners_categorias.php

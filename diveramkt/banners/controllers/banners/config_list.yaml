@@ -1,0 +1,12 @@
+list: $/diveramkt/banners/models/banners/columns.yaml
+modelClass: Diveramkt\Banners\Models\Banners
+title: Banners
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+recordsPerPage: 20
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+recordUrl: 'diveramkt/banners/banners/update/:id'

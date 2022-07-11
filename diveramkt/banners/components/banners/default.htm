@@ -1,0 +1,31 @@
+{% set records=__SELF__.records %}
+{% for record in records %}
+{% if record.url %}
+<a href="{{record.url}}" {{record.target}} title="{{record.link}}" class="{{__SELF__}}_add_clicks" data-request="{{__SELF__}}::onClick" data-request-data="'id': '{{record.id}}'">
+	{% endif %}
+	<img src="{{url(record.banner)}}" alt="{{record.label}}" loading="lazy" />
+	{% if record.url %}
+</a>
+{% endif %}
+{% endfor %}
+
+{% put scripts %}
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$('a.{{__SELF__}}_add_clicks').each(function(){
+			if($(this).attr('target') == '_blank'){
+				$(this).removeAttr('data-request');
+				$(this).click(function(){
+					var click=$(this);
+					$(this).request('{{__SELF__}}::onClick', {
+						loading: $.oc.stripeLoadIndicator,
+						data: { noredirect: 1 },
+					});
+				});
+			}
+		});
+
+	});
+</script>
+{% endput %}

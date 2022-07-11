@@ -1,0 +1,5 @@
+title: Categorias
+nameFrom: title
+modelClass: Diveramkt\Banners\Models\Categorias
+toolbar:
+    buttons: reorder_toolbar

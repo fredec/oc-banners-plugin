@@ -1,0 +1,5 @@
+title: Banners
+nameFrom: label
+modelClass: Diveramkt\Banners\Models\Banners
+toolbar:
+    buttons: reorder_toolbar

@@ -1,0 +1,102 @@
+fields:
+    label:
+        label: Legenda
+        span: full
+        type: text
+        comment: 'Breve descrição do banner'
+    date_begin:
+        label: 'Data para publicar'
+        mode: datetime
+        span: auto
+        comment: 'Ficará visível a partir desta data'
+        ignoreTimezone: true
+        type: datepicker
+        tab: Informações
+    date_end:
+        label: 'Data para desabilitar'
+        comment: 'Ficará visível até está data'
+        mode: datetime
+        span: auto
+        ignoreTimezone: true
+        type: datepicker
+        tab: Informações
+tabs:
+    fields:
+        image:
+            label: Banner
+            mode: image
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: auto
+            type: mediafinder
+            tab: Imagem
+        image_mobile:
+            label: 'Banner no mobile'
+            mode: image
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: auto
+            type: mediafinder
+            tab: Imagem
+        title:
+            label: Título
+            size: small
+            span: full
+            type: richeditor
+            toolbarButtons: bold|italic|color
+            tab: Textos
+        text:
+            label: Texto
+            size: huge
+            span: full
+            type: richeditor
+            toolbarButtons: bold|italic|color
+            tab: Textos
+        link:
+            label: Link
+            size: tiny
+            span: auto
+            type: textarea
+            tab: Link
+        type_link:
+            label: 'Tipo de link'
+            options:
+                link: Link
+                phone: Telefone
+                whatsapp: Whatsapp
+            showSearch: true
+            span: auto
+            type: dropdown
+            tab: Link
+        section_link:
+            label: 'Botão'
+            comment: 'Caso o banner tenha a possibilidade de colocar botão'
+            type: section
+            tab: Link
+        button:
+            label: Botão
+            span: auto
+            type: text
+            tab: Link
+        color_button:
+            label: 'Cor do botão'
+            span: auto
+            type: colorpicker
+            tab: Link
+        categorias:
+            label: Categorias
+            nameFrom: title
+            descriptionFrom: description
+            span: full
+            type: partial
+            path: $/diveramkt/banners/controllers/_relation_categorias.htm
+            tab: Categorias
+        clicks:
+            label: Clicks
+            type: partial
+            path: $/diveramkt/banners/controllers/_relation_clicks.htm
+            tab: Clicks

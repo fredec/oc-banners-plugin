@@ -1,0 +1,29 @@
+columns:
+    image:
+        label: Banner
+        type: partial
+        path: $/diveramkt/banners/partials/partial_image.htm
+    label:
+        label: Legenda
+        type: text
+        searchable: true
+    date_begin:
+        label: 'Data publicar'
+        type: datetime
+    date_end:
+        label: 'Data Desabilitar'
+        type: datetime
+    enabled:
+        label: Habilitado
+        type: switch
+    # clicks:
+    #     label: 'Últimos Clicks'
+    #     # type: number
+    #     path: '$/diveramkt/banners/models/banners/column_clicks.htm'
+    #     type: partial
+    totalclick:
+        label: 'Total de Clicks'
+        type: number
+    sort_order:
+        label: Ordem
+        type: number

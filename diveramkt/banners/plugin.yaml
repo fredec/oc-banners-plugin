@@ -1,0 +1,34 @@
+plugin:
+    name: 'diveramkt.banners::lang.plugin.name'
+    description: 'diveramkt.banners::lang.plugin.description'
+    author: Diveramkt
+    icon: oc-icon-image
+    homepage: ''
+navigation:
+    banners-main:
+        label: 'Área Banners'
+        url: diveramkt/banners/banners
+        icon: icon-image
+        permissions:
+            - diveramktbanners_categorias
+            - diveramktbanners_banners
+        sideMenu:
+            banners-banners:
+                label: Banners
+                url: diveramkt/banners/banners
+                icon: icon-image
+                permissions:
+                    - diveramktbanners_banners
+            banners-categorias:
+                label: Categorias
+                url: diveramkt/banners/categorias
+                icon: icon-list
+                permissions:
+                    - diveramktbanners_categorias
+permissions:
+    diveramktbanners_banners:
+        tab: 'diveramkt.banners::lang.plugin.name'
+        label: 'Gerenciar Banners'
+    diveramktbanners_categorias:
+        tab: 'diveramkt.banners::lang.plugin.name'
+        label: 'Gerenciar Categorias dos banners'

@@ -1,0 +1,9 @@
+columns:
+    created_at:
+        label: 'Data do click'
+        type: datetime
+        searchable: true
+    url:
+        label: 'Url'
+        type: text
+        searchable: true

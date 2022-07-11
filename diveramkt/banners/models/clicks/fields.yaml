@@ -1,0 +1,6 @@
+fields:
+    date_create:
+        label: 'Data do click'
+        mode: datetime
+        span: auto
+        type: datepicker

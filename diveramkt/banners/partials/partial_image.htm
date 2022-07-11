@@ -1,0 +1,12 @@
+<?php $img=''; ?>
+<?php 
+if(isset($value->path)) $img=$value->path;
+else $img='storage/app/media/'.$value;
+
+$name=explode('/',$img); $name=end($name);
+if(File::exists($img) && strpos("[".$name."]", ".")){
+?>
+<img src="<?=url($img)?>" width="100" height="100" style="height: auto;width: auto;max-width: 100px;max-height: 100px;" />
+<?php
+}
+?>

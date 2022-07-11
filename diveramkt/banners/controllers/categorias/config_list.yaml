@@ -1,0 +1,15 @@
+list: $/diveramkt/banners/models/categorias/columns.yaml
+modelClass: Diveramkt\Banners\Models\Categorias
+title: Categorias
+noRecordsMessage: 'backend::lang.list.no_records'
+showSetup: true
+showCheckboxes: true
+recordsPerPage: 20
+defaultSort: 
+    column: title
+    direction: desc
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'
+recordUrl: 'diveramkt/banners/categorias/update/:id'

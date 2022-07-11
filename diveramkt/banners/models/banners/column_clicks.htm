@@ -1,0 +1,11 @@
+<?php
+
+if(isset($value[0]->date_create)){
+foreach($value as $key => $vet){
+if($key > 3) continue;
+$date=explode('-',$vet->date_create);
+$date=array_reverse($date);
+echo implode('/',$date).' - <b>'.$vet->count.'</b><br/>';
+}
+}else echo 'Nenhum click no momento';
+?>

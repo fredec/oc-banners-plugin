@@ -1,0 +1,10 @@
+name: Categorias
+form: $/diveramkt/banners/models/categorias/fields.yaml
+modelClass: Diveramkt\Banners\Models\Categorias
+defaultRedirect: diveramkt/banners/categorias
+create:
+    redirect: 'diveramkt/banners/categorias/update/:id'
+    redirectClose: diveramkt/banners/categorias
+update:
+    redirect: diveramkt/banners/categorias
+    redirectClose: diveramkt/banners/categorias
