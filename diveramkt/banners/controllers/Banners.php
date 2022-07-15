@@ -13,7 +13,7 @@ class Banners extends Controller
     public $relationConfig = 'config_relation.yaml';
 
     public $requiredPermissions = [
-        'manage_leiteintegral' 
+        'diveramktbanners_banners'
     ];
 
     public function __construct()

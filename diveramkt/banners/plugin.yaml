@@ -6,7 +6,7 @@ plugin:
     homepage: ''
 navigation:
     banners-main:
-        label: 'Área Banners'
+        label: 'Banners'
         url: diveramkt/banners/banners
         icon: icon-image
         permissions:
