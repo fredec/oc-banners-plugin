@@ -42,6 +42,15 @@ tabs:
             span: auto
             type: mediafinder
             tab: Imagem
+        position:
+            label: Posição
+            span: full
+            type: dropdown
+            options:
+                left: 'Esquerdo'
+                center: 'Centro'
+                right: 'Direito'
+            tab: Textos
         title:
             label: Título
             size: small

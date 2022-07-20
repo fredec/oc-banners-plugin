@@ -22,4 +22,17 @@ class Banners extends Controller
         // BackendMenu::setContext('Diveramkt.Banners', 'banners-main');
         BackendMenu::setContext('Diveramkt.Banners', 'banners-main', 'banners-banners');
     }
+
+    public function reorderExtendQuery($query)
+    {
+        $query->orderBy('sort_order', 'desc');
+        return $query;
+    }
+
+    public function listExtendQuery($query)
+    {
+        $query->orderBy('sort_order', 'desc');
+        return $query;
+    }
+    
 }

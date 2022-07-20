@@ -52,6 +52,9 @@ class Banners extends Model
         'clicks' => 'Diveramkt\Banners\Models\Clicks',
     ];
 
+    public function scopeOrder($query){
+        return $query->orderBy($this->table.'.sort_order','desc');
+    }
     public function scopeEnabled($query){
         return $query
         ->select($this->table.'.*')
@@ -59,7 +62,7 @@ class Banners extends Model
         ->where($this->table.'.date_begin','<=',date('Y-m-d H:i:s'))
         ->where(function($query){
             $query->whereNull($this->table.'.date_end')->orWhere($this->table.'.date_end','>',date('Y-m-d H:i:s'));
-        });
+        })->order();
     }
 
     public function getEnabledAttribute(){
