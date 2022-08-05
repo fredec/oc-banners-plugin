@@ -25,6 +25,54 @@ class Banners extends ComponentBase
 				'description' => 'Buscar banners pela categoria, id ou slug',
 				'type' => 'dropdown',
 			],
+			'resize_width' => [
+				'title'             => 'Largura da imagem (resize)',
+				'type'              => 'string',
+				'validationPattern' => '^[0-9]+$',
+				'validationMessage' => 'Apenas número permitido',
+				'description' => 'Necessário ter o filter resize',
+				'default'           => '0',
+				'group'           => 'Resize',
+			],
+			'resize_height' => [
+				'title'             => 'Altura da imagem (resize)',
+				'type'              => 'string',
+				'validationPattern' => '^[0-9]+$',
+				'validationMessage' => 'Apenas número permitido',
+				'description' => 'Necessário ter o filter resize',
+				'default'           => '0',
+				'group'           => 'Resize',
+			],
+			'resize_crop' => [
+				'title'             => 'Mode do resize crop',
+				'type'              => 'checkbox',
+				'default'           => '0',
+				'group'           => 'Resize',
+			],
+			'resize_width_mobile' => [
+				'title'             => 'Largura da imagem (resize)',
+				'type'              => 'string',
+				'validationPattern' => '^[0-9]+$',
+				'validationMessage' => 'Apenas número permitido',
+				'description' => 'Necessário ter o filter resize',
+				'default'           => '0',
+				'group'           => 'Resize no mobile',
+			],
+			'resize_height_mobile' => [
+				'title'             => 'Altura da imagem (resize)',
+				'type'              => 'string',
+				'validationPattern' => '^[0-9]+$',
+				'validationMessage' => 'Apenas número permitido',
+				'description' => 'Necessário ter o filter resize',
+				'default'           => '0',
+				'group'           => 'Resize no mobile',
+			],
+			'resize_crop_mobile' => [
+				'title'             => 'Mode do resize crop',
+				'type'              => 'checkbox',
+				'default'           => '0',
+				'group'           => 'Resize no mobile',
+			],
 		];
 	}
 
@@ -32,11 +80,70 @@ class Banners extends ComponentBase
 		if($this->property('category')){
 			if(is_numeric($this->property('category'))) $categoria=Categorias::where('id',$this->property('category'))->first();
 			else $categoria=Categorias::where('slug',$this->property('category'))->first();
-			if(isset($categoria->id)) $this->records=$categoria->banners;
+			if(isset($categoria->id)) $records=$categoria->banners;
 		}else{
-			$this->records=get_banners::enabled()->get();
+			$records=get_banners::enabled()->get();
 		}
+
+		$height=preg_replace("/[^0-9]/", "", $this->property('resize_height')); if(!$height) $height='auto';
+		$width=preg_replace("/[^0-9]/", "", $this->property('resize_width')); if(!$width) $width='auto';
+		$mode='auto';
+		if($this->property('resize_height') || $this->property('resize_width')){
+			if($this->property('resize_crop')) $mode='crop';
+			$this->resize=[
+				'height' => $height,
+				'width' => $width,
+				'mode' => $mode,
+			];
+		}
+
+		$height_mobile=preg_replace("/[^0-9]/", "", $this->property('resize_height_mobile')); if(!$height_mobile) $height_mobile='auto';
+		$width_mobile=preg_replace("/[^0-9]/", "", $this->property('resize_width_mobile')); if(!$width_mobile) $width_mobile='auto';
+		$mode_mobile='auto';
+		if($this->property('resize_height_mobile') || $this->property('resize_width_mobile')){
+			if($this->property('resize_crop_mobile')) $mode_mobile='crop';
+			$this->resize_mobile=[
+				'height' => $height_mobile,
+				'width' => $width_mobile,
+				'mode' => $mode_mobile,
+			];
+		}
+
+		$records->each(function($record) {
+			$image=false;
+			if($this->resize){
+				if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image = new \Diveramkt\Uploads\Classes\Image($record->banner);
+				elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image = new \ToughDeveloper\ImageResizer\Classes\Image($record->banner);
+			}
+			if($image) $record->banner_resized=$image->resize($this->resize['width'], $this->resize['height'], ['mode' => $this->resize['mode']]);
+			else $record->banner_resized=url($record->banner);
+
+			if(!empty($record->banner_mobile)){
+				$image_mobile=false;
+				if($this->resize_mobile){
+					if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image_mobile = new \Diveramkt\Uploads\Classes\Image($record->banner_mobile);
+					elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image_mobile = new \ToughDeveloper\ImageResizer\Classes\Image($record->banner_mobile);
+				}
+				if($image_mobile) $record->banner_mobile_resized=$image_mobile->resize($this->resize_mobile['width'], $this->resize_mobile['height'], ['mode' => $this->resize_mobile['mode']]);
+				else $record->banner_mobile_resized=url($record->banner_mobile);
+			}
+
+		});
+
+		$this->records=$records;
 	}
+
+	// public function registerMarkupTags()
+	// {
+	// 	return [];
+	// 	return [
+	// 		'filters' => [
+	// 			'resize' => function($file_path) {
+	// 				return url($file_path);
+	// 			},
+	// 		]
+	// 	];
+	// }
 
 	public function onClick(){
 		$post=post();
@@ -98,5 +205,5 @@ class Banners extends ComponentBase
  //        $this->settings = (object)$this->settings;
 	// }
 
-	public $records;
+	public $records, $resize=false, $resize_mobile=false;
 }
