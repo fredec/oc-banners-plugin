@@ -10,3 +10,4 @@ fields:
             field: title
             type: slug
         type: text
+        hidden: 1

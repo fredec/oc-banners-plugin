@@ -1,0 +1,10 @@
+<div class="image">
+	{% if record.url %}
+	<a href="{{record.url}}" {{record.target}} title="{{record.link}}" class="{{__SELF__}}_add_clicks _add_clicks" data-request-data="'id': '{{record.id}}'">
+		{% endif %}
+		{% if record.banner_mobile_resized %} <img class="d-block d-md-none visible-xs" {{width_mobile}} {{height_mobile}} src="{{record.banner_mobile_resized}}" alt="{{record.label}}" loading="lazy" /> {% endif %}
+		<img class="{{record.banner_mobile_resized?'d-none hidden-xs d-md-block'}}" {{width}} {{height}} src="{{record.banner_resized}}" alt="{{record.label}}" loading="lazy" />
+		{% if record.url %}
+	</a>
+	{% endif %}
+</div>

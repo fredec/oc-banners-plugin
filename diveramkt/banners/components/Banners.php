@@ -73,10 +73,26 @@ class Banners extends ComponentBase
 				'default'           => '0',
 				'group'           => 'Resize no mobile',
 			],
+			// 'position' => [
+			// 	'title'             => 'Posição',
+			// 	'type'              => 'string',
+			// 	'validationPattern' => '^[0-9]+$',
+			// 	'validationMessage' => 'Apenas número permitido',
+			// 	'description' => 'O número da posição do banner na ordem',
+			// 	'default'           => '0',
+			// 	'group'           => 'Banner por posição',
+			// ],
+			// 'position_itens' => [
+			// 	'title'             => 'Mode do resize crop',
+			// 	'type'              => 'checkbox',
+			// 	'default'           => '0',
+			// 	'group'           => 'Banner por posição',
+			// ],
 		];
 	}
 
 	public function onRun(){
+		$this->addJs('/plugins/diveramkt/banners/assets/js/scripts.js');
 		if($this->property('category')){
 			if(is_numeric($this->property('category'))) $categoria=Categorias::where('id',$this->property('category'))->first();
 			else $categoria=Categorias::where('slug',$this->property('category'))->first();
@@ -145,6 +161,10 @@ class Banners extends ComponentBase
 	// 	];
 	// }
 
+	public function onBannersAddClick(){
+		$this->onClick();
+	}
+
 	public function onClick(){
 		$post=post();
 
@@ -154,6 +174,7 @@ class Banners extends ComponentBase
 		$banner=get_banners::enabled()->where('id',$id)->first();
 		// if(isset($post['url']) && $banner->url != $post['url']) return;
 		// if(isset($post['banner']) && $banner->banner != $post['banner']) return;
+		if(!isset($banner->id)) return;
 
 		$click=new Clicks();
 		$click->date_create=date('y-m-d');
@@ -161,7 +182,7 @@ class Banners extends ComponentBase
 		$click->banners_id=$id;
 		$click->save();
 		
-		if(!isset($post['noredirect']) && !empty($banner->url)) return Redirect::To($banner->url);
+		if(!post('noredirect') && !empty($banner->url)) return Redirect::To($banner->url);
 	}
 
 	public function getCategoryOptions(){
@@ -173,6 +194,15 @@ class Banners extends ComponentBase
 			}
 		}
 		return $return;
+	}
+
+	public function onBannerPositionItem($item=0, $porVez=0){
+		if(!$porVez) return;
+		if($item%$porVez == 0) return $this->onBannerPosition(($item/$porVez)-1);
+	}
+	public function onBannerPosition($posicao=0){
+		$pos=$posicao%count($this->records);
+		if(isset($this->records[$pos])) return $this->records[$pos];
 	}
 
 	// protected function getBanner(){

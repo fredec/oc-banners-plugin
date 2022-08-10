@@ -5,35 +5,5 @@
 {% if __SELF__.resize_mobile.height > 0 %} {% set height_mobile='height='~__SELF__.resize_mobile.height %} {% endif %}
 
 {% for record in records %}
-<div class="image">
-	{% if record.url %}
-	<a href="{{record.url}}" {{record.target}} title="{{record.link}}" class="{{__SELF__}}_add_clicks" data-request="{{__SELF__}}::onClick" data-request-data="'id': '{{record.id}}'">
-		{% endif %}
-		{% if record.banner_mobile_resized %} <img class="d-block d-md-none visible-xs" {{width_mobile}} {{height_mobile}} src="{{record.banner_mobile_resized}}" alt="{{record.label}}" loading="lazy" /> {% endif %}
-		<img class="{{record.banner_mobile_resized?'d-none hidden-xs d-md-block'}}" {{width}} {{height}} src="{{record.banner_resized}}" alt="{{record.label}}" loading="lazy" />
-		{% if record.url %}
-	</a>
-	{% endif %}
-</div>
+{% partial __SELF__~'::item' record=record %}
 {% endfor %}
-
-{% put scripts %}
-<script type="text/javascript">
-	$(document).ready(function(){
-
-		$('a.{{__SELF__}}_add_clicks').each(function(){
-			if($(this).attr('target') == '_blank'){
-				$(this).removeAttr('data-request');
-				$(this).click(function(){
-					var click=$(this);
-					$(this).request('{{__SELF__}}::onClick', {
-						loading: $.oc.stripeLoadIndicator,
-						data: { noredirect: 1 },
-					});
-				});
-			}
-		});
-
-	});
-</script>
-{% endput %}

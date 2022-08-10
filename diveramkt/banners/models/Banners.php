@@ -115,5 +115,9 @@ class Banners extends Model
     public function getTargetAttribute(){
         if(!empty($this->url)) return Functions::target($this->url);
     }
+    public function getLinkExternAttribute(){
+        if(!strpos("[".$this->link."]", "url('/')")) return 1;
+        else return 0;
+    }
 
 }

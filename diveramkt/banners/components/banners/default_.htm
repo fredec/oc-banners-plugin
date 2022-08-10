@@ -1,17 +1,20 @@
 {% set records=__SELF__.records %}
-{% set resize=__SELF__.resize %}
+{% if __SELF__.resize.width > 0 %} {% set width='width='~__SELF__.resize.width %} {% endif %}
+{% if __SELF__.resize.height > 0 %} {% set height='height='~__SELF__.resize.height %} {% endif %}
+{% if __SELF__.resize_mobile.width > 0 %} {% set width_mobile='width='~__SELF__.resize_mobile.width %} {% endif %}
+{% if __SELF__.resize_mobile.height > 0 %} {% set height_mobile='height='~__SELF__.resize_mobile.height %} {% endif %}
+
 {% for record in records %}
-{% if record.url %}
-<a href="{{record.url}}" {{record.target}} title="{{record.link}}" class="{{__SELF__}}_add_clicks" data-request="{{__SELF__}}::onClick" data-request-data="'id': '{{record.id}}'">
-	{% endif %}
-	{% if resize.width %}
-	<img src="{{record.banner|resize(resize.width,resize.height)}}" alt="{{record.label}}" loading="lazy" />
-	{% else %}
-	<img src="{{record.banner}}" alt="{{record.label}}" loading="lazy" />
-	{% endif %}
+<div class="image">
 	{% if record.url %}
-</a>
-{% endif %}
+	<a href="{{record.url}}" {{record.target}} title="{{record.link}}" class="{{__SELF__}}_add_clicks" data-request="{{__SELF__}}::onClick" data-request-data="'id': '{{record.id}}'">
+		{% endif %}
+		{% if record.banner_mobile_resized %} <img class="d-block d-md-none visible-xs" {{width_mobile}} {{height_mobile}} src="{{record.banner_mobile_resized}}" alt="{{record.label}}" loading="lazy" /> {% endif %}
+		<img class="{{record.banner_mobile_resized?'d-none hidden-xs d-md-block'}}" {{width}} {{height}} src="{{record.banner_resized}}" alt="{{record.label}}" loading="lazy" />
+		{% if record.url %}
+	</a>
+	{% endif %}
+</div>
 {% endfor %}
 
 {% put scripts %}
