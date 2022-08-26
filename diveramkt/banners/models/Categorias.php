@@ -16,6 +16,7 @@ class Categorias extends Model
      */
     public $timestamps = false;
 
+    public $jsonable = ['infos'];
 
     /**
      * @var string The database table used by the model.
@@ -53,6 +54,19 @@ class Categorias extends Model
         }
         $this->slug=$slug;
 
+        $infos=$this->infos;
+        foreach ($this->attributes as $key => $value) {
+            if(!\Schema::hasColumn($this->table, $key)){
+                $infos[$key]=$value;
+                unset($this->$key);
+            }
+        }
+        $this->infos=$infos;
+
+    }
+
+    public function getDescriptionAttribute(){
+        return $this->infos['description'];
     }
 
     // public function scopeEnabled($query){

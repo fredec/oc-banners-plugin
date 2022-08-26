@@ -6,8 +6,13 @@ fields:
     slug:
         label: Slug
         span: auto
+        hidden: 1
         preset:
             field: title
             type: slug
         type: text
-        hidden: 1
+    description:
+        label: Descrição
+        size: tiny
+        span: auto
+        type: textarea

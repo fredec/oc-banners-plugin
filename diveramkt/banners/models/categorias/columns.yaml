@@ -3,3 +3,6 @@ columns:
         label: Título
         type: text
         searchable: true
+    description:
+        label: Descrição
+        type: text
