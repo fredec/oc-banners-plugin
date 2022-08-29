@@ -22,6 +22,11 @@ fields:
         tab: Informações
 tabs:
     fields:
+        section_banners:
+            type: section
+            label: 'Os tamanhos das imagens estaram informados nas categorias selecionadas'
+            span: full
+            tab: Imagem
         image:
             label: Banner
             mode: image

@@ -14,5 +14,6 @@ fields:
     description:
         label: Descrição
         size: tiny
+        comment: 'Informações sobre a categoria como os tamanhos das imagens'
         span: auto
         type: textarea
