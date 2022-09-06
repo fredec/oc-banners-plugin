@@ -65,9 +65,15 @@ class Categorias extends Model
 
     }
 
-    public function getDescriptionAttribute(){
-        return $this->infos['description'];
-    }
+    // public function afterFetch(){
+    //     echo '<pre>';
+    //     print_r($this->infos);
+    //     echo '</pre>';
+    // }
+
+    // public function getDescriptionAttribute(){
+    //     return $this->infos['description'];
+    // }
 
     // public function scopeEnabled($query){
     //     return $query->where('')
