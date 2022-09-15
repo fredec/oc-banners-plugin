@@ -47,14 +47,33 @@ tabs:
             span: auto
             type: mediafinder
             tab: Imagem
+        section_position:
+            label: 'Posição do texto'
+            span: full
+            type: section
+            tab: Textos
         position:
             label: Posição
-            span: full
+            span: auto
             type: dropdown
             options:
                 left: 'Esquerdo'
                 center: 'Centro'
                 right: 'Direito'
+            tab: Textos
+        position_vertical:
+            label: 'Posição Vertical'
+            span: auto
+            type: dropdown
+            options:
+                top: 'Topo'
+                center: 'Centro'
+                bottom: 'Abaixo'
+            tab: Textos
+        section_texts:
+            label: 'Textos'
+            span: full
+            type: section
             tab: Textos
         title:
             label: Título
@@ -69,6 +88,16 @@ tabs:
             span: full
             type: richeditor
             toolbarButtons: bold|italic|color
+            tab: Textos
+        section_style_text:
+            label: 'Estilização do texto'
+            span: full
+            type: section
+            tab: Textos
+        color_text:
+            label: 'Cor do texto'
+            span: auto
+            type: colorpicker
             tab: Textos
         link:
             label: Link
@@ -95,6 +124,7 @@ tabs:
             label: Botão
             span: auto
             type: text
+            comment: 'Caso esteja vazio, o link estará em todo banner'
             tab: Link
         color_button:
             label: 'Cor do botão'

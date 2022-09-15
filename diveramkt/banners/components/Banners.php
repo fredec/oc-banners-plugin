@@ -131,8 +131,13 @@ class Banners extends ComponentBase
 				if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image = new \Diveramkt\Uploads\Classes\Image($record->banner);
 				elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image = new \ToughDeveloper\ImageResizer\Classes\Image($record->banner);
 			}
-			if($image) $record->banner_resized=$image->resize($this->resize['width'], $this->resize['height'], ['mode' => $this->resize['mode']]);
-			else $record->banner_resized=url($record->banner);
+			if($image){
+				$record->banner_resized=$image->resize($this->resize['width'], $this->resize['height'], ['mode' => $this->resize['mode']]);
+			}else $record->banner_resized=url($record->banner);
+
+			$size=getimagesize($record->banner_resized);
+			if(isset($size[0])) $record->banner_resized_width=$size[0];
+			if(isset($size[1])) $record->banner_resized_height=$size[1];
 
 			if(!empty($record->banner_mobile)){
 				$image_mobile=false;
@@ -140,10 +145,14 @@ class Banners extends ComponentBase
 					if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image_mobile = new \Diveramkt\Uploads\Classes\Image($record->banner_mobile);
 					elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image_mobile = new \ToughDeveloper\ImageResizer\Classes\Image($record->banner_mobile);
 				}
-				if($image_mobile) $record->banner_mobile_resized=$image_mobile->resize($this->resize_mobile['width'], $this->resize_mobile['height'], ['mode' => $this->resize_mobile['mode']]);
-				else $record->banner_mobile_resized=url($record->banner_mobile);
-			}
+				if($image_mobile){
+					$record->banner_mobile_resized=$image_mobile->resize($this->resize_mobile['width'], $this->resize_mobile['height'], ['mode' => $this->resize_mobile['mode']]);
+				}else $record->banner_mobile_resized=url($record->banner_mobile);
 
+				$size=getimagesize($record->banner_mobile_resized);
+				if(isset($size[0])) $record->banner_mobile_resized_width=$size[0];
+				if(isset($size[1])) $record->banner_mobile_resized_height=$size[1];
+			}
 		});
 
 		$this->records=$records;
