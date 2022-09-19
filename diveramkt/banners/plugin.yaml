@@ -32,3 +32,6 @@ permissions:
     diveramktbanners_categorias:
         tab: 'diveramkt.banners::lang.plugin.name'
         label: 'Gerenciar Categorias dos banners'
+    diveramktbanners_settings:
+        tab: 'diveramkt.banners::lang.plugin.name'
+        label: 'Gerenciar Configurações banners'

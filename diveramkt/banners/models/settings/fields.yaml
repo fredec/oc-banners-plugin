@@ -1,0 +1,35 @@
+fields:
+    enabled_image_mobile:
+        label: 'Habilitar banner no mobile'
+        span: auto
+        default: 1
+        type: switch
+    section1:
+        label: 'textos'
+        span: full
+        type: section
+    enabled_position_text:
+        label: 'Habilitar posições horizontal'
+        span: auto
+        default: 1
+        type: switch
+    enabled_position_vertical_text:
+        label: 'Habilitar posições verticais'
+        span: auto
+        default: 0
+        type: switch
+    enabled_text_color:
+        label: 'Habilitar cor do texto'
+        span: auto
+        default: 0
+        type: switch
+    section2:
+        label: 'Botao'
+        span: full
+        type: section
+    enabled_button_color:
+        label: 'Habilitar cor do botão'
+        span: auto
+        default: 0
+        type: switch
+

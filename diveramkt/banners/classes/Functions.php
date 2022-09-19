@@ -1,9 +1,16 @@
 <?php namespace Diveramkt\Banners\Classes;
 
 use Request;
+use Diveramkt\Banners\Models\Settings;
 
 class Functions
 {
+
+  public static $getSettingsCache=null;
+  public static function getSettings(){
+    if(!Self::$getSettingsCache) Self::$getSettingsCache=Settings::instance();
+    return Self::$getSettingsCache;
+  }
 
   public static function prep_url($url) {
     $url=trim($url);
