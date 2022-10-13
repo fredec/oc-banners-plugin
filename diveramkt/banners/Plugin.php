@@ -37,6 +37,9 @@ class Plugin extends PluginBase
                     if(isset($settings->enabled_image_mobile) && !$settings->enabled_image_mobile) $widget->removeField('image_mobile');
                     if(isset($settings->enabled_position_text) && !$settings->enabled_position_text) $widget->removeField('position');
                     if(!$settings->enabled_position_vertical_text) $widget->removeField('position_vertical');
+                    if((!isset($settings->enabled_position_text) || !$settings->enabled_position_text) && !$settings->enabled_position_vertical_text){
+                        $widget->removeField('section_position');
+                    }
                     if(!$settings->enabled_text_color){
                         $widget->removeField('color_text');
                         $widget->removeField('section_style_text');

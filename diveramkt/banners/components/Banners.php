@@ -135,9 +135,12 @@ class Banners extends ComponentBase
 				$record->banner_resized=$image->resize($this->resize['width'], $this->resize['height'], ['mode' => $this->resize['mode']]);
 			}else $record->banner_resized=url($record->banner);
 
-			$size=getimagesize($record->banner_resized);
-			if(isset($size[0])) $record->banner_resized_width=$size[0];
-			if(isset($size[1])) $record->banner_resized_height=$size[1];
+			$image=str_replace(url('/'), '', $record->banner_resized);
+			if(file_exists($image)){
+				$size=getimagesize($image);
+				if(isset($size[0])) $record->banner_resized_width=$size[0];
+				if(isset($size[1])) $record->banner_resized_height=$size[1];
+			}
 
 			if(!empty($record->banner_mobile)){
 				$image_mobile=false;
@@ -149,9 +152,12 @@ class Banners extends ComponentBase
 					$record->banner_mobile_resized=$image_mobile->resize($this->resize_mobile['width'], $this->resize_mobile['height'], ['mode' => $this->resize_mobile['mode']]);
 				}else $record->banner_mobile_resized=url($record->banner_mobile);
 
-				$size=getimagesize($record->banner_mobile_resized);
-				if(isset($size[0])) $record->banner_mobile_resized_width=$size[0];
-				if(isset($size[1])) $record->banner_mobile_resized_height=$size[1];
+				$image=str_replace(url('/'), '', $record->banner_mobile_resized);
+				if(file_exists($image)){
+					$size=getimagesize($record->banner_mobile_resized);
+					if(isset($size[0])) $record->banner_mobile_resized_width=$size[0];
+					if(isset($size[1])) $record->banner_mobile_resized_height=$size[1];
+				}
 			}
 		});
 
