@@ -1,0 +1,6 @@
+scopes:
+    # category:
+    #     label: Category
+    #     modelClass: Acme\Blog\Models\Category
+    #     conditions: category_id in (:filtered)
+    #     nameFrom: name

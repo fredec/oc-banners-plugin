@@ -7,6 +7,10 @@ columns:
         label: Legenda
         type: text
         searchable: true
+    categorias:
+        label: Categorias
+        relation: categorias
+        select: title
     date_begin:
         label: 'Data publicar'
         type: datetime
