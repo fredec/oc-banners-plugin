@@ -35,11 +35,17 @@ class Plugin extends PluginBase
                 if($widget->model instanceof \Diveramkt\Banners\Models\Banners) {
                     $settings=Functions::getSettings();
                     if(isset($settings->enabled_image_mobile) && !$settings->enabled_image_mobile) $widget->removeField('image_mobile');
-                    if(isset($settings->enabled_position_text) && !$settings->enabled_position_text) $widget->removeField('position');
-                    if(!$settings->enabled_position_vertical_text) $widget->removeField('position_vertical');
-                    if((!isset($settings->enabled_position_text) || !$settings->enabled_position_text) && !$settings->enabled_position_vertical_text){
-                        $widget->removeField('section_position');
+
+                    $positions=[ 'horizontal' => 1, 'vertical' => 1 ];
+                    if(!$settings->enabled_position_text_options){
+                        $widget->removeField('position');
+                        $positions['horizontal']=0;
                     }
+                    if(!$settings->enabled_position_vertical_text_options){
+                        $widget->removeField('position_vertical');
+                        $positions['vertical']=0;
+                    }
+                    if(!$positions['horizontal'] && !$positions['vertical']) $widget->removeField('section_position');
                     if(!$settings->enabled_text_color){
                         $widget->removeField('color_text');
                         $widget->removeField('section_style_text');

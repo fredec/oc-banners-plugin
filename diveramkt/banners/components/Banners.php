@@ -216,7 +216,9 @@ class Banners extends ComponentBase
 		if($item%$porVez == 0) return $this->onBannerPosition(($item/$porVez)-1);
 	}
 	public function onBannerPosition($posicao=0){
-		$pos=$posicao%count($this->records);
+		$pos=0;
+		if(!$this->records) $this->onRun();
+		if(isset($this->records[0]->id)) $pos=$posicao%count($this->records);
 		if(isset($this->records[$pos])) return $this->records[$pos];
 	}
 

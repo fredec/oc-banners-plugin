@@ -56,19 +56,19 @@ tabs:
             label: Posição
             span: auto
             type: dropdown
-            options:
-                left: 'Esquerdo'
-                center: 'Centro'
-                right: 'Direito'
+            # options:
+            #     left: 'Esquerdo'
+            #     center: 'Centro'
+            #     right: 'Direito'
             tab: Textos
         position_vertical:
             label: 'Posição Vertical'
             span: auto
             type: dropdown
-            options:
-                top: 'Topo'
-                center: 'Centro'
-                bottom: 'Abaixo'
+            # options:
+            #     top: 'Topo'
+            #     center: 'Centro'
+            #     bottom: 'Abaixo'
             tab: Textos
         section_texts:
             label: 'Textos'

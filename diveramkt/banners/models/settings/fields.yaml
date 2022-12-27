@@ -5,26 +5,32 @@ fields:
         default: 1
         type: switch
     section1:
-        label: 'textos'
+        label: textos
         span: full
         type: section
-    enabled_position_text:
+    enabled_position_text_options:
         label: 'Habilitar posições horizontal'
+        options:
+            left: Esquerdo
+            center: Centro
+            right: Direita
         span: auto
-        default: 1
-        type: switch
-    enabled_position_vertical_text:
+        type: checkboxlist
+    enabled_position_vertical_text_options:
         label: 'Habilitar posições verticais'
+        options:
+            top: Topo
+            center: Centro
+            bottom: Abaixo
         span: auto
-        default: 0
-        type: switch
+        type: checkboxlist
     enabled_text_color:
         label: 'Habilitar cor do texto'
         span: auto
         default: 0
         type: switch
     section2:
-        label: 'Botao'
+        label: Botao
         span: full
         type: section
     enabled_button_color:
@@ -32,4 +38,3 @@ fields:
         span: auto
         default: 0
         type: switch
-

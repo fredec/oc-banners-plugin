@@ -120,4 +120,29 @@ class Banners extends Model
         else return 0;
     }
 
+    public function getPositionOptions(){
+        $settings=Functions::getSettings();
+        $return=[];
+        $options=[];
+        if(isset($settings->enabled_position_text_options)) $options=$settings->enabled_position_text_options;
+        foreach($options as $value){
+            if($value == 'left') $return['left']='Esquerdo';
+            elseif($value == 'center') $return['center']='Centro';
+            elseif($value == 'right') $return['right']='Direita';
+        }
+        return $return;
+    }
+    public function getPositionVerticalOptions(){
+        $settings=Functions::getSettings();
+        $return=[];
+        $options=[];
+        if(isset($settings->enabled_position_vertical_text_options)) $options=$settings->enabled_position_vertical_text_options;
+        foreach($options as $value){
+            if($value == 'top') $return['top']='Esquerdo';
+            elseif($value == 'center') $return['center']='Centro';
+            elseif($value == 'bottom') $return['bottom']='Direita';
+        }
+        return $return;
+    }
+
 }
