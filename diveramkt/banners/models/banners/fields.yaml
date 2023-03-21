@@ -47,6 +47,11 @@ tabs:
             span: auto
             type: mediafinder
             tab: Imagem
+        color_background:
+            label: 'Cor de fundo'
+            span: auto
+            type: colorpicker
+            tab: Imagem
         section_position:
             label: 'Posição do texto'
             span: full
@@ -56,22 +61,14 @@ tabs:
             label: Posição
             span: auto
             type: dropdown
-            # options:
-            #     left: 'Esquerdo'
-            #     center: 'Centro'
-            #     right: 'Direito'
             tab: Textos
         position_vertical:
             label: 'Posição Vertical'
             span: auto
             type: dropdown
-            # options:
-            #     top: 'Topo'
-            #     center: 'Centro'
-            #     bottom: 'Abaixo'
             tab: Textos
         section_texts:
-            label: 'Textos'
+            label: Textos
             span: full
             type: section
             tab: Textos
@@ -115,10 +112,20 @@ tabs:
             span: auto
             type: dropdown
             tab: Link
+        text_link:
+            label: 'Texto do whatsapp'
+            span: right
+            trigger:
+                action: show
+                field: type_link
+                condition: 'value[whatsapp]'
+            type: text
+            tab: Link
         section_link:
-            label: 'Botão'
-            comment: 'Caso o banner tenha a possibilidade de colocar botão'
+            label: Botão
+            span: full
             type: section
+            comment: 'Caso o banner tenha a possibilidade de colocar botão'
             tab: Link
         button:
             label: Botão
@@ -131,6 +138,33 @@ tabs:
             span: auto
             type: colorpicker
             tab: Link
+        links_extra:
+            label: 'Links extra'
+            prompt: 'Acrescentar novo link'
+            span: full
+            type: repeater
+            tab: Link
+            form:
+                fields:
+                    link:
+                        label: Link
+                        size: tiny
+                        span: full
+                        type: textarea
+                    button:
+                        label: Botão
+                        span: auto
+                        type: text
+                        comment: 'Caso esteja vazio, o link estará em todo banner'
+                    type_link:
+                        label: 'Tipo de link'
+                        options:
+                            link: Link
+                            phone: Telefone
+                            whatsapp: Whatsapp
+                        showSearch: true
+                        span: auto
+                        type: dropdown
         categorias:
             label: Categorias
             nameFrom: title

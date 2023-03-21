@@ -3,6 +3,7 @@
 use System\Classes\PluginBase;
 use Diveramkt\Banners\Classes\Functions;
 use Event;
+use Diveramkt\Banners\Classes\BackendHelpers;
 
 class Plugin extends PluginBase
 {
@@ -51,9 +52,20 @@ class Plugin extends PluginBase
                         $widget->removeField('section_style_text');
                     }
                     if(!$settings->enabled_button_color) $widget->removeField('color_button');
+                    if(!$settings->enabled_links_extra) $widget->removeField('links_extra');
+                    if(!$settings->enabled_color_background) $widget->removeField('color_background');
                 }
             }
         });
+
+
+        if(BackendHelpers::isTranslate()){
+            \Diveramkt\Banners\Models\Banners::extend(function($model) {
+                if(!in_array('RainLab.Translate.Behaviors.TranslatableModel',$model->implement)) $model->implement[] = 'RainLab.Translate.Behaviors.TranslatableModel';
+                $model->translatable = ['image','image_mobile','title','text','button','links_extra'];
+            });
+        }
+
     }
 
 

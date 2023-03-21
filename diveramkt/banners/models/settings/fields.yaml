@@ -4,6 +4,11 @@ fields:
         span: auto
         default: 1
         type: switch
+    enabled_color_background:
+        label: 'Habilitar cor de fundo'
+        span: auto
+        default: 0
+        type: switch
     section1:
         label: textos
         span: full
@@ -35,6 +40,11 @@ fields:
         type: section
     enabled_button_color:
         label: 'Habilitar cor do botão'
+        span: auto
+        default: 0
+        type: switch
+    enabled_links_extra:
+        label: 'Habilitar Links extra'
         span: auto
         default: 0
         type: switch

@@ -15,6 +15,9 @@ class Banners extends Model
 {
     use \October\Rain\Database\Traits\Validation;
     use \October\Rain\Database\Traits\Sortable;
+
+    public $implement = [];
+    public $translatable = [];
     
     /*
      * Disable timestamps by default.
@@ -26,7 +29,7 @@ class Banners extends Model
     //     'banner' => 'System\Models\File',
     // ];
 
-    public $jsonable = ['infos'];
+    public $jsonable = ['infos','links_extra'];
 
     /**
      * @var string The database table used by the model.
@@ -81,6 +84,25 @@ class Banners extends Model
     }
 
     public function beforeSave($model=false){
+
+        if(isset($this->links_extra[0])){
+            $links_extra=$this->links_extra;
+            foreach($links_extra as $key => $link){
+                $link['target']='';
+                if($link['type_link'] == 'link'){
+                    $link['url']=Functions::prep_url($link['link']);
+                    $link['target']=Functions::target($link['url']);
+                }
+                elseif($link['type_link'] == 'phone') $link['url']=Functions::phone_link($link['link']);
+                elseif($link['type_link'] == 'whatsapp'){
+                    $link['url']=Functions::whats_link($link['link']);
+                    $link['target']='target="_blank"';
+                }
+                $links_extra[$key]=$link;
+            }
+            $this->links_extra=$links_extra;
+        }
+
         $infos=$this->infos;
         foreach ($this->attributes as $key => $value) {
             if(!\Schema::hasColumn($this->table, $key)){
@@ -108,7 +130,7 @@ class Banners extends Model
             $url='';
             if($this->type_link == 'link') $url=Functions::prep_url($this->link);
             elseif($this->type_link == 'phone') $url=Functions::phone_link($this->link);
-            elseif($this->type_link == 'whatsapp') $url=Functions::whats_link($this->link);
+            elseif($this->type_link == 'whatsapp') $url=Functions::whats_link($this->link, $this->text_link);
             return $url;
         }
     }
@@ -138,9 +160,9 @@ class Banners extends Model
         $options=[];
         if(isset($settings->enabled_position_vertical_text_options)) $options=$settings->enabled_position_vertical_text_options;
         foreach($options as $value){
-            if($value == 'top') $return['top']='Esquerdo';
+            if($value == 'top') $return['top']='Topo';
             elseif($value == 'center') $return['center']='Centro';
-            elseif($value == 'bottom') $return['bottom']='Direita';
+            elseif($value == 'bottom') $return['bottom']='Baixo';
         }
         return $return;
     }

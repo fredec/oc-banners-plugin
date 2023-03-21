@@ -19,6 +19,15 @@ class BackendHelpers {
         return Self::$getIsMiscelanious;
     }
 
+    public static $getIsTranslate=null;
+    public static function isTranslate() :bool {
+        if(!Self::$getIsTranslate){
+            $plugins=new PluginVersion();
+            Self::$getIsTranslate=class_exists('\RainLab\Translate\Classes\Translator') && class_exists('\RainLab\Translate\Models\Message') && $plugins->where('code','RainLab.Translate')->ApplyEnabled()->count();
+        }
+        return Self::$getIsTranslate;
+    }
+
 }
 
 ?>
