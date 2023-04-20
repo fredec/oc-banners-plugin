@@ -4,6 +4,10 @@ fields:
         span: auto
         default: 1
         type: switch
+    enabled_image_tablet:
+        label: 'Habilitar banner no tablet'
+        span: auto
+        type: switch
     enabled_color_background:
         label: 'Habilitar cor de fundo'
         span: auto

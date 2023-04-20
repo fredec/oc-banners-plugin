@@ -82,6 +82,10 @@ class Banners extends Model
         if(empty($this->image_mobile)) return;
         return Config::get('cms.storage.media.path').$this->image_mobile;
     }
+    public function getBannerTabletAttribute(){
+        if(empty($this->image_tablet)) return;
+        return Config::get('cms.storage.media.path').$this->image_tablet;
+    }
 
     public function beforeSave($model=false){
 

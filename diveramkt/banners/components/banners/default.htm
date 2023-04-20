@@ -4,8 +4,18 @@
 	{% if record.url %}
 	<a href="{{record.url}}" {{record.target}} title="{{record.link}}" class="{{__SELF__}}_add_clicks _add_clicks" data-request-data="'id': '{{record.id}}'">
 		{% endif %}
-		{% if record.banner_mobile_resized %} <img class="d-block d-md-none visible-xs" width="{{record.banner_mobile_resized_width}}" height="{{record.banner_mobile_resized_height}}" src="{{record.banner_mobile_resized}}" alt="{{record.label}}" loading="lazy" /> {% endif %}
-		<img class="{{record.banner_mobile_resized?'d-none hidden-xs d-md-block'}}" width="{{record.banner_resized_width}}" height="{{record.banner_resized_height}}" src="{{record.banner_resized}}" alt="{{record.label}}" loading="lazy" />
+		{% if record.banner_mobile_resized %} <img class="d-block d-sm-none visible-xs" width="{{record.banner_mobile_resized_width}}" height="{{record.banner_mobile_resized_height}}" src="{{record.banner_mobile_resized}}" alt="{{record.label}}" loading="lazy" /> {% endif %}
+		
+		{% if record.banner_tablet_resized %} <img class="{{record.banner_mobile_resized?'d-none'}} d-sm-block d-xl-none visible-sm hidden-lg" width="{{record.banner_tablet_resized_width}}" height="{{record.banner_tablet_resized_height}}" src="{{record.banner_tablet_resized}}" alt="{{record.label}}" loading="lazy" /> {% endif %}
+
+		{% set classD='' %}
+		{% if record.banner_mobile_resized or record.banner_tablet_resized %}{% set classD=classD~' d-none' %}{% endif %}
+		{% if record.banner_tablet_resized %}
+		{% set classD=classD~' hidden-sm d-xl-block' %}
+		{% elseif record.banner_mobile_resized %}
+		{% set classD=classD~' hidden-xs d-sm-block' %}
+		{% endif %}
+		<img class="{{classD}}" width="{{record.banner_resized_width}}" height="{{record.banner_resized_height}}" src="{{record.banner_resized}}" alt="{{record.label}}" loading="lazy" />
 		{% if record.url %}
 	</a>
 	{% endif %}

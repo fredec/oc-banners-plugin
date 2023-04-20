@@ -37,13 +37,16 @@ tabs:
             span: auto
             type: mediafinder
             tab: Imagem
+        image_tablet:
+            label: 'Banner no Tablet'
+            mode: image
+            span: auto
+            type: mediafinder
+            comment: 'Será utilizado dependendo da categoria selecionada'
+            tab: Imagem
         image_mobile:
             label: 'Banner no mobile'
             mode: image
-            useCaption: true
-            thumbOptions:
-                mode: crop
-                extension: auto
             span: auto
             type: mediafinder
             tab: Imagem

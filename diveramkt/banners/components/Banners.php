@@ -49,6 +49,30 @@ class Banners extends ComponentBase
 				'default'           => '0',
 				'group'           => 'Resize',
 			],
+			'resize_width_tablet' => [
+				'title'             => 'Largura da imagem (resize)',
+				'type'              => 'string',
+				'validationPattern' => '^[0-9]+$',
+				'validationMessage' => 'Apenas número permitido',
+				'description' => 'Necessário ter o filter resize',
+				'default'           => '0',
+				'group'           => 'Resize no tablet',
+			],
+			'resize_height_tablet' => [
+				'title'             => 'Altura da imagem (resize)',
+				'type'              => 'string',
+				'validationPattern' => '^[0-9]+$',
+				'validationMessage' => 'Apenas número permitido',
+				'description' => 'Necessário ter o filter resize',
+				'default'           => '0',
+				'group'           => 'Resize no tablet',
+			],
+			'resize_crop_tablet' => [
+				'title'             => 'Mode do resize crop',
+				'type'              => 'checkbox',
+				'default'           => '0',
+				'group'           => 'Resize no tablet',
+			],
 			'resize_width_mobile' => [
 				'title'             => 'Largura da imagem (resize)',
 				'type'              => 'string',
@@ -113,6 +137,18 @@ class Banners extends ComponentBase
 			];
 		}
 
+		$height_tablet=preg_replace("/[^0-9]/", "", $this->property('resize_height_tablet')); if(!$height_tablet) $height_tablet='auto';
+		$width_tablet=preg_replace("/[^0-9]/", "", $this->property('resize_width_tablet')); if(!$width_tablet) $width_tablet='auto';
+		$mode_tablet='auto';
+		if($this->property('resize_height_tablet') || $this->property('resize_width_tablet')){
+			if($this->property('resize_crop_tablet')) $mode_tablet='crop';
+			$this->resize_tablet=[
+				'height' => $height_tablet,
+				'width' => $width_tablet,
+				'mode' => $mode_tablet,
+			];
+		}
+
 		$height_mobile=preg_replace("/[^0-9]/", "", $this->property('resize_height_mobile')); if(!$height_mobile) $height_mobile='auto';
 		$width_mobile=preg_replace("/[^0-9]/", "", $this->property('resize_width_mobile')); if(!$width_mobile) $width_mobile='auto';
 		$mode_mobile='auto';
@@ -142,6 +178,27 @@ class Banners extends ComponentBase
 				if(isset($size[1])) $record->banner_resized_height=$size[1];
 			}
 
+			// ///////////////TABLET
+			if(!empty($record->banner_tablet)){
+				$image_tablet=false;
+				if($this->resize_tablet){
+					if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image_tablet = new \Diveramkt\Uploads\Classes\Image($record->banner_tablet);
+					elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image_tablet = new \ToughDeveloper\ImageResizer\Classes\Image($record->banner_tablet);
+				}
+				if($image_tablet){
+					$record->banner_tablet_resized=$image_tablet->resize($this->resize_tablet['width'], $this->resize_tablet['height'], ['mode' => $this->resize_tablet['mode']]);
+				}else $record->banner_tablet_resized=url($record->banner_tablet);
+
+				$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_tablet_resized);
+				if(file_exists($image)){
+					$size=getimagesize($record->banner_tablet_resized);
+					if(isset($size[0])) $record->banner_tablet_resized_width=$size[0];
+					if(isset($size[1])) $record->banner_tablet_resized_height=$size[1];
+				}
+			}
+			// ///////////////TABLET
+
+			// ///////////////MOBILE
 			if(!empty($record->banner_mobile)){
 				$image_mobile=false;
 				if($this->resize_mobile){
@@ -159,6 +216,7 @@ class Banners extends ComponentBase
 					if(isset($size[1])) $record->banner_mobile_resized_height=$size[1];
 				}
 			}
+			// ///////////////MOBILE
 		});
 
 		$this->records=$records;
@@ -252,5 +310,5 @@ class Banners extends ComponentBase
  //        $this->settings = (object)$this->settings;
 	// }
 
-	public $records, $resize=false, $resize_mobile=false;
+	public $records, $resize=false, $resize_mobile=false, $resize_tablet=false;
 }

@@ -35,7 +35,8 @@ class Plugin extends PluginBase
             if($widget->isNested === false){
                 if($widget->model instanceof \Diveramkt\Banners\Models\Banners) {
                     $settings=Functions::getSettings();
-                    if(isset($settings->enabled_image_mobile) && !$settings->enabled_image_mobile) $widget->removeField('image_mobile');
+                    if(!$settings->enabled_image_mobile) $widget->removeField('image_mobile');
+                    if(!$settings->enabled_image_tablet) $widget->removeField('image_tablet');
 
                     $positions=[ 'horizontal' => 1, 'vertical' => 1 ];
                     if(!$settings->enabled_position_text_options){
