@@ -177,6 +177,8 @@ class Banners extends ComponentBase
 				if(isset($size[0])) $record->banner_resized_width=$size[0];
 				if(isset($size[1])) $record->banner_resized_height=$size[1];
 			}
+			if(!isset($record->banner_resized_width) && isset($this->resize['width'])) $record->banner_resized_width=$this->resize['width'];
+			if(!isset($record->banner_resized_height) && isset($this->resize['height'])) $record->banner_resized_height=$this->resize['height'];
 
 			// ///////////////TABLET
 			if(!empty($record->banner_tablet)){
@@ -196,6 +198,8 @@ class Banners extends ComponentBase
 					if(isset($size[1])) $record->banner_tablet_resized_height=$size[1];
 				}
 			}
+			if(!isset($record->banner_tablet_resized_width) && isset($this->resize_tablet['width'])) $record->banner_tablet_resized_width=$this->resize_tablet['width'];
+			if(!isset($record->banner_tablet_resized_height) && isset($this->resize_tablet['height'])) $record->banner_tablet_resized_height=$this->resize_tablet['height'];
 			// ///////////////TABLET
 
 			// ///////////////MOBILE
@@ -216,6 +220,8 @@ class Banners extends ComponentBase
 					if(isset($size[1])) $record->banner_mobile_resized_height=$size[1];
 				}
 			}
+			if(!isset($record->banner_mobile_resized_width) && isset($this->resize_mobile['width'])) $record->banner_mobile_resized_width=$this->resize_mobile['width'];
+			if(!isset($record->banner_mobile_resized_height) && isset($this->resize_mobile['height'])) $record->banner_mobile_resized_height=$this->resize_mobile['height'];
 			// ///////////////MOBILE
 		});
 
