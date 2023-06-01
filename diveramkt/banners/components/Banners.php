@@ -168,7 +168,7 @@ class Banners extends ComponentBase
 				elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image = new \ToughDeveloper\ImageResizer\Classes\Image($record->banner);
 			}
 			if($image){
-				$record->banner_resized=$image->resize($this->resize['width'], $this->resize['height'], ['mode' => $this->resize['mode']]);
+				$record->banner_resized=$image->resize($this->resize['width'], $this->resize['height'], ['mode' => $this->resize['mode'], 'quality' => 80]);
 			}else $record->banner_resized=url($record->banner);
 
 			$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_resized);
@@ -188,7 +188,7 @@ class Banners extends ComponentBase
 					elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image_tablet = new \ToughDeveloper\ImageResizer\Classes\Image($record->banner_tablet);
 				}
 				if($image_tablet){
-					$record->banner_tablet_resized=$image_tablet->resize($this->resize_tablet['width'], $this->resize_tablet['height'], ['mode' => $this->resize_tablet['mode']]);
+					$record->banner_tablet_resized=$image_tablet->resize($this->resize_tablet['width'], $this->resize_tablet['height'], ['mode' => $this->resize_tablet['mode'], 'quality' => 80]);
 				}else $record->banner_tablet_resized=url($record->banner_tablet);
 
 				$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_tablet_resized);
@@ -210,7 +210,7 @@ class Banners extends ComponentBase
 					elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image_mobile = new \ToughDeveloper\ImageResizer\Classes\Image($record->banner_mobile);
 				}
 				if($image_mobile){
-					$record->banner_mobile_resized=$image_mobile->resize($this->resize_mobile['width'], $this->resize_mobile['height'], ['mode' => $this->resize_mobile['mode']]);
+					$record->banner_mobile_resized=$image_mobile->resize($this->resize_mobile['width'], $this->resize_mobile['height'], ['mode' => $this->resize_mobile['mode'], 'quality' => 80]);
 				}else $record->banner_mobile_resized=url($record->banner_mobile);
 
 				$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_mobile_resized);
