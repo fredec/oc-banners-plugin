@@ -2,6 +2,7 @@
 
 use Cms\Classes\ComponentBase;
 
+use Diveramkt\Banners\Classes\Functions;
 use Diveramkt\Banners\Models\Categorias;
 use Diveramkt\Banners\Models\Banners as get_banners;
 use Diveramkt\Banners\Models\Clicks;
@@ -116,6 +117,7 @@ class Banners extends ComponentBase
 	}
 
 	public function onRun(){
+		$settings=Functions::getSettings();
 		$this->addJs('/plugins/diveramkt/banners/assets/js/scripts.js');
 		if($this->property('category')){
 			if(is_numeric($this->property('category'))) $categoria=Categorias::where('id',$this->property('category'))->first();
@@ -161,7 +163,7 @@ class Banners extends ComponentBase
 			];
 		}
 
-		$records->each(function($record) {
+		$records->each(function($record) use ($settings) {
 			$image=false;
 			if($this->resize){
 				if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image = new \Diveramkt\Uploads\Classes\Image($record->banner);
@@ -180,53 +182,66 @@ class Banners extends ComponentBase
 			if(!isset($record->banner_resized_width) && isset($this->resize['width'])) $record->banner_resized_width=$this->resize['width'];
 			if(!isset($record->banner_resized_height) && isset($this->resize['height'])) $record->banner_resized_height=$this->resize['height'];
 
+			if($settings->enabled_image_tablet){
 			// ///////////////TABLET
-			if(!empty($record->banner_tablet)){
-				$image_tablet=false;
-				if($this->resize_tablet){
-					if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image_tablet = new \Diveramkt\Uploads\Classes\Image($record->banner_tablet);
-					elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image_tablet = new \ToughDeveloper\ImageResizer\Classes\Image($record->banner_tablet);
-				}
-				if($image_tablet){
-					$record->banner_tablet_resized=$image_tablet->resize($this->resize_tablet['width'], $this->resize_tablet['height'], ['mode' => $this->resize_tablet['mode'], 'quality' => 80]);
-				}else $record->banner_tablet_resized=url($record->banner_tablet);
+				if(empty($record->banner_tablet)){
+					$record->banner_tablet=$record->banner;
+					$banner_tablet=$record->banner;
+				}else $banner_tablet=$record->banner_tablet;
+				if(!empty($banner_tablet)){
+					$image_tablet=false;
+					if($this->resize_tablet){
+						if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image_tablet = new \Diveramkt\Uploads\Classes\Image($banner_tablet);
+						elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image_tablet = new \ToughDeveloper\ImageResizer\Classes\Image($banner_tablet);
+					}
+					if($image_tablet){
+						$record->banner_tablet_resized=$image_tablet->resize($this->resize_tablet['width'], $this->resize_tablet['height'], ['mode' => $this->resize_tablet['mode'], 'quality' => 80]);
+					}else $record->banner_tablet_resized=url($banner_tablet);
 
-				$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_tablet_resized);
-				if(file_exists($image)){
-					$size=getimagesize($record->banner_tablet_resized);
-					if(isset($size[0])) $record->banner_tablet_resized_width=$size[0];
-					if(isset($size[1])) $record->banner_tablet_resized_height=$size[1];
+					$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_tablet_resized);
+					if(file_exists($image)){
+						$size=getimagesize($record->banner_tablet_resized);
+						if(isset($size[0])) $record->banner_tablet_resized_width=$size[0];
+						if(isset($size[1])) $record->banner_tablet_resized_height=$size[1];
+					}
 				}
-			}
-			if(!isset($record->banner_tablet_resized_width) && isset($this->resize_tablet['width'])) $record->banner_tablet_resized_width=$this->resize_tablet['width'];
-			if(!isset($record->banner_tablet_resized_height) && isset($this->resize_tablet['height'])) $record->banner_tablet_resized_height=$this->resize_tablet['height'];
+				if(!isset($record->banner_tablet_resized_width) && isset($this->resize_tablet['width'])) $record->banner_tablet_resized_width=$this->resize_tablet['width'];
+				if(!isset($record->banner_tablet_resized_height) && isset($this->resize_tablet['height'])) $record->banner_tablet_resized_height=$this->resize_tablet['height'];
 			// ///////////////TABLET
-
-			// ///////////////MOBILE
-			if(!empty($record->banner_mobile)){
-				$image_mobile=false;
-				if($this->resize_mobile){
-					if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image_mobile = new \Diveramkt\Uploads\Classes\Image($record->banner_mobile);
-					elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image_mobile = new \ToughDeveloper\ImageResizer\Classes\Image($record->banner_mobile);
-				}
-				if($image_mobile){
-					$record->banner_mobile_resized=$image_mobile->resize($this->resize_mobile['width'], $this->resize_mobile['height'], ['mode' => $this->resize_mobile['mode'], 'quality' => 80]);
-				}else $record->banner_mobile_resized=url($record->banner_mobile);
-
-				$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_mobile_resized);
-				if(file_exists($image)){
-					$size=getimagesize($record->banner_mobile_resized);
-					if(isset($size[0])) $record->banner_mobile_resized_width=$size[0];
-					if(isset($size[1])) $record->banner_mobile_resized_height=$size[1];
-				}
 			}
-			if(!isset($record->banner_mobile_resized_width) && isset($this->resize_mobile['width'])) $record->banner_mobile_resized_width=$this->resize_mobile['width'];
-			if(!isset($record->banner_mobile_resized_height) && isset($this->resize_mobile['height'])) $record->banner_mobile_resized_height=$this->resize_mobile['height'];
+
+			if($settings->enabled_image_mobile){
 			// ///////////////MOBILE
+			// enabled_image_mobile
+				if(empty($record->banner_mobile)){
+					$record->banner_mobile=$record->banner;
+					$banner_mobile=$record->banner;
+				}else $banner_mobile=$record->banner_mobile;
+				if(!empty($banner_mobile)){
+					$image_mobile=false;
+					if($this->resize_mobile){
+						if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image_mobile = new \Diveramkt\Uploads\Classes\Image($banner_mobile);
+						elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image_mobile = new \ToughDeveloper\ImageResizer\Classes\Image($banner_mobile);
+					}
+					if($image_mobile){
+						$record->banner_mobile_resized=$image_mobile->resize($this->resize_mobile['width'], $this->resize_mobile['height'], ['mode' => $this->resize_mobile['mode'], 'quality' => 80]);
+					}else $record->banner_mobile_resized=url($banner_mobile);
+
+					$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_mobile_resized);
+					if(file_exists($image)){
+						$size=getimagesize($record->banner_mobile_resized);
+						if(isset($size[0])) $record->banner_mobile_resized_width=$size[0];
+						if(isset($size[1])) $record->banner_mobile_resized_height=$size[1];
+					}
+				}
+				if(!isset($record->banner_mobile_resized_width) && isset($this->resize_mobile['width'])) $record->banner_mobile_resized_width=$this->resize_mobile['width'];
+				if(!isset($record->banner_mobile_resized_height) && isset($this->resize_mobile['height'])) $record->banner_mobile_resized_height=$this->resize_mobile['height'];
+			// ///////////////MOBILE
+			}
 		});
 
-		$this->records=$records;
-	}
+$this->records=$records;
+}
 
 	// public function registerMarkupTags()
 	// {
@@ -240,51 +255,51 @@ class Banners extends ComponentBase
 	// 	];
 	// }
 
-	public function onBannersAddClick(){
-		$this->onClick();
-	}
+public function onBannersAddClick(){
+	$this->onClick();
+}
 
-	public function onClick(){
-		$post=post();
+public function onClick(){
+	$post=post();
 
-		if(!isset($post['id'])) return;
-		$id=$post['id'];
+	if(!isset($post['id'])) return;
+	$id=$post['id'];
 
-		$banner=get_banners::enabled()->where('id',$id)->first();
+	$banner=get_banners::enabled()->where('id',$id)->first();
 		// if(isset($post['url']) && $banner->url != $post['url']) return;
 		// if(isset($post['banner']) && $banner->banner != $post['banner']) return;
-		if(!isset($banner->id)) return;
+	if(!isset($banner->id)) return;
 
-		$click=new Clicks();
-		$click->date_create=date('y-m-d');
-		$click->url=Request::url('/');
-		$click->banners_id=$id;
-		$click->save();
-		
-		if(!post('noredirect') && !empty($banner->url)) return Redirect::To($banner->url);
-	}
+	$click=new Clicks();
+	$click->date_create=date('y-m-d');
+	$click->url=Request::url('/');
+	$click->banners_id=$id;
+	$click->save();
 
-	public function getCategoryOptions(){
-		$return=[];
-		$categorias=Categorias::get();
-		if(isset($categorias[0]->id)){
-			foreach ($categorias as $key => $value) {
-				$return[$value->slug]=$value->title;
-			}
+	if(!post('noredirect') && !empty($banner->url)) return Redirect::To($banner->url);
+}
+
+public function getCategoryOptions(){
+	$return=[];
+	$categorias=Categorias::get();
+	if(isset($categorias[0]->id)){
+		foreach ($categorias as $key => $value) {
+			$return[$value->slug]=$value->title;
 		}
-		return $return;
 	}
+	return $return;
+}
 
-	public function onBannerPositionItem($item=0, $porVez=0){
-		if(!$porVez) return;
-		if($item%$porVez == 0) return $this->onBannerPosition(($item/$porVez)-1);
-	}
-	public function onBannerPosition($posicao=0){
-		$pos=0;
-		if(!$this->records) $this->onRun();
-		if(isset($this->records[0]->id)) $pos=$posicao%count($this->records);
-		if(isset($this->records[$pos])) return $this->records[$pos];
-	}
+public function onBannerPositionItem($item=0, $porVez=0){
+	if(!$porVez) return;
+	if($item%$porVez == 0) return $this->onBannerPosition(($item/$porVez)-1);
+}
+public function onBannerPosition($posicao=0){
+	$pos=0;
+	if(!$this->records) $this->onRun();
+	if(isset($this->records[0]->id)) $pos=$posicao%count($this->records);
+	if(isset($this->records[$pos])) return $this->records[$pos];
+}
 
 	// protected function getBanner(){
 	// 	if ($this->property('banner') == "") {
@@ -316,5 +331,5 @@ class Banners extends ComponentBase
  //        $this->settings = (object)$this->settings;
 	// }
 
-	public $records, $resize=false, $resize_mobile=false, $resize_tablet=false;
+public $records, $resize=false, $resize_mobile=false, $resize_tablet=false;
 }
