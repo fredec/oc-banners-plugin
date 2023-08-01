@@ -15,3 +15,6 @@
 1.0.6:
     - 'Updated table diveramkt_banners_banners'
     - builder_table_update_diveramkt_banners_banners.php
+1.0.7:
+    - 'Updated table diveramkt_banners_banners'
+    - builder_table_update_diveramkt_banners_banners_2.php

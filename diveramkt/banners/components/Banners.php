@@ -184,7 +184,7 @@ class Banners extends ComponentBase
 
 			if($settings->enabled_image_tablet){
 			// ///////////////TABLET
-				if(empty($record->banner_tablet)){
+				if(!$record->banner_tablet || !file_exists(str_replace('/storage', 'storage', $record->banner_tablet))){
 					$record->banner_tablet=$record->banner;
 					$banner_tablet=$record->banner;
 				}else $banner_tablet=$record->banner_tablet;
@@ -212,8 +212,7 @@ class Banners extends ComponentBase
 
 			if($settings->enabled_image_mobile){
 			// ///////////////MOBILE
-			// enabled_image_mobile
-				if(empty($record->banner_mobile)){
+				if(!$record->banner_mobile || !file_exists(str_replace('/storage', 'storage', $record->banner_mobile))){
 					$record->banner_mobile=$record->banner;
 					$banner_mobile=$record->banner;
 				}else $banner_mobile=$record->banner_mobile;
@@ -225,6 +224,7 @@ class Banners extends ComponentBase
 					}
 					if($image_mobile){
 						$record->banner_mobile_resized=$image_mobile->resize($this->resize_mobile['width'], $this->resize_mobile['height'], ['mode' => $this->resize_mobile['mode'], 'quality' => 80]);
+
 					}else $record->banner_mobile_resized=url($banner_mobile);
 
 					$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_mobile_resized);

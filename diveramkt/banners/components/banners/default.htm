@@ -4,9 +4,10 @@
 	{% if record.url %}
 	<a href="{{record.url}}" {{record.target}} title="{{record.link}}" class="{{__SELF__}}_add_clicks _add_clicks" data-request-data="'id': '{{record.id}}'">
 		{% endif %}
-		{% if record.banner_mobile_resized %} <img class="d-block d-sm-none visible-xs" width="{{record.banner_mobile_resized_width}}" height="{{record.banner_mobile_resized_height}}" src="{{record.banner_mobile_resized}}" alt="{{record.label}}" loading="lazy" /> {% endif %}
+		{% if record.type == 0 %}
+		{% if record.banner_mobile_resized %} <img class="d-block d-sm-none visible-xs" width="{{record.banner_mobile_resized_width}}" height="{{record.banner_mobile_resized_height}}" src="{{record.banner_mobile_resized}}" alt="{{record.label}}" {{key?'loading="lazy"'}} /> {% endif %}
 		
-		{% if record.banner_tablet_resized %} <img class="{{record.banner_mobile_resized?'d-none'}} d-sm-block d-xl-none visible-sm hidden-lg" width="{{record.banner_tablet_resized_width}}" height="{{record.banner_tablet_resized_height}}" src="{{record.banner_tablet_resized}}" alt="{{record.label}}" loading="lazy" /> {% endif %}
+		{% if record.banner_tablet_resized %} <img class="{{record.banner_mobile_resized?'d-none'}} d-sm-block d-xl-none visible-sm hidden-lg" width="{{record.banner_tablet_resized_width}}" height="{{record.banner_tablet_resized_height}}" src="{{record.banner_tablet_resized}}" alt="{{record.label}}" {{key?'loading="lazy"'}} /> {% endif %}
 
 		{% set classD='' %}
 		{% if record.banner_mobile_resized or record.banner_tablet_resized %}{% set classD=classD~' d-none' %}{% endif %}
@@ -15,10 +16,17 @@
 		{% elseif record.banner_mobile_resized %}
 		{% set classD=classD~' hidden-xs d-sm-block' %}
 		{% endif %}
-		<img class="{{classD}}" width="{{record.banner_resized_width}}" height="{{record.banner_resized_height}}" src="{{record.banner_resized}}" alt="{{record.label}}" loading="lazy" />
+		<img class="{{classD}}" width="{{record.banner_resized_width}}" height="{{record.banner_resized_height}}" src="{{record.banner_resized}}" alt="{{record.label}}" {{key?'loading="lazy"'}} />
 		{% if record.url %}
-	</a>
+		{% elseif record.type == 1 %}
+		<iframe width="560" height="315" muted autoplay src="{{record.youtube|video_embed(1)}}&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen {{key?'loading="lazy"'}}></iframe>
+		{% elseif record.type == 2 %}
+		<video width="100%" height="100%" autoplay playsinline muted loop  {{key?'loading="lazy"'}}>
+			<source src="{{record.video.path}}" type="{{record.video.content_type}}">
+			</video>
+			{% endif %}
+		</a>
+		{% endif %}
+	</div>
+	{% endfor %}
 	{% endif %}
-</div>
-{% endfor %}
-{% endif %}

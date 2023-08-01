@@ -40,8 +40,20 @@ class Banners extends Model
      * @var array Validation rules
      */
     public $rules = [
-        'image' => 'required',
+        'image' => 'required_if:type,0',
+        'youtube' => 'required_if:type,1',
+        'video' => 'required_if:type,2',
         'label' => 'required',
+    ];
+
+    public $customMessages = [
+        'image.required_if' => 'Imagem é obrigatório',
+        'youtube.required_if' => 'Link do youtube é obrigatório',
+        'video.required_if' => 'Arquivo de vídeo é obrigatório',
+    ];
+
+    public $attachOne = [
+        'video' => 'System\Models\File',
     ];
 
     public $belongsToMany = [
@@ -54,6 +66,18 @@ class Banners extends Model
     public $hasMany = [
         'clicks' => 'Diveramkt\Banners\Models\Clicks',
     ];
+
+    public function getTypeOptions(){
+        $settings=Functions::getSettings();
+        $types=[
+            0 => 'Imagem',
+        ];
+        if($settings->types_midias && count($settings->types_midias) > 0){
+            if(in_array('youtube', $settings->types_midias)) $types[1]='Youtube';
+            if(in_array('filevideo', $settings->types_midias)) $types[2]='Arquivo de vídeo';
+        }
+        return $types;
+    }
 
     public function scopeOrder($query){
         return $query->orderBy($this->table.'.sort_order','desc');

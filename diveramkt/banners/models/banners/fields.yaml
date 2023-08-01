@@ -22,11 +22,22 @@ fields:
         tab: Informações
 tabs:
     fields:
+        type:
+            label: 'Tipo de banner'
+            showSearch: true
+            span: full
+            type: dropdown
+            tab: Mídia
+            default: 0
         section_banners:
-            type: section
             label: 'Os tamanhos das imagens estaram informados nas categorias selecionadas'
             span: full
-            tab: Imagem
+            trigger:
+                action: show
+                field: type
+                condition: 'value[0]'
+            type: section
+            tab: Mídia
         image:
             label: Banner
             mode: image
@@ -34,27 +45,68 @@ tabs:
             thumbOptions:
                 mode: crop
                 extension: auto
+            trigger:
+                action: show
+                field: type
+                condition: 'value[0]'
             span: auto
             type: mediafinder
-            tab: Imagem
+            tab: Mídia
         image_tablet:
             label: 'Banner no Tablet'
             mode: image
             span: auto
             type: mediafinder
             comment: 'Será utilizado dependendo da categoria selecionada'
-            tab: Imagem
+            trigger:
+                action: show
+                field: type
+                condition: 'value[0]'
+            tab: Mídia
         image_mobile:
             label: 'Banner no mobile'
             mode: image
             span: auto
             type: mediafinder
-            tab: Imagem
+            trigger:
+                action: show
+                field: type
+                condition: 'value[0]'
+            tab: Mídia
         color_background:
             label: 'Cor de fundo'
             span: auto
             type: colorpicker
-            tab: Imagem
+            trigger:
+                action: show
+                field: type
+                condition: 'value[0]'
+            tab: Mídia
+        youtube:
+            label: 'Link do youtube'
+            span: full
+            type: text
+            trigger:
+                action: show
+                field: type
+                condition: 'value[1]'
+            tab: Mídia
+        video:
+            label: 'Arquivo de vídeo'
+            mode: file
+            fileTypes: 'mp4, ogg, webm'
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: full
+            trigger:
+                action: show
+                field: type
+                condition: 'value[2]'
+            type: fileupload
+            commentAbove: 'Arquivos permitidos: mp4, ogg, webm'
+            tab: Mídia
         section_position:
             label: 'Posição do texto'
             span: full

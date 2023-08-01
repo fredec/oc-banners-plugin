@@ -13,6 +13,13 @@ fields:
         span: auto
         default: 0
         type: switch
+    types_midias:
+        label: 'Tipos de arquivos além das imagens'
+        options:
+            filevideo: 'Arquivo de vídeo'
+            youtube: 'Link do youtube'
+        span: full
+        type: checkboxlist
     section1:
         label: textos
         span: full
