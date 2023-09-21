@@ -17,7 +17,6 @@
 		{% set classD=classD~' hidden-xs d-sm-block' %}
 		{% endif %}
 		<img class="{{classD}}" width="{{record.banner_resized_width}}" height="{{record.banner_resized_height}}" src="{{record.banner_resized}}" alt="{{record.label}}" {{key?'loading="lazy"'}} />
-		{% if record.url %}
 		{% elseif record.type == 1 %}
 		<iframe width="560" height="315" muted autoplay src="{{record.youtube|video_embed(1)}}&mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen {{key?'loading="lazy"'}}></iframe>
 		{% elseif record.type == 2 %}
@@ -25,6 +24,7 @@
 			<source src="{{record.video.path}}" type="{{record.video.content_type}}">
 			</video>
 			{% endif %}
+			{% if record.url %}
 		</a>
 		{% endif %}
 	</div>
