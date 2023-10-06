@@ -132,14 +132,33 @@ tabs:
             size: small
             span: full
             type: richeditor
-            toolbarButtons: bold|italic|color
+            toolbarButtons: bold|italic|color|paragraphStyle|align
             tab: Textos
         text:
             label: Texto
             size: huge
             span: full
             type: richeditor
-            toolbarButtons: bold|italic|color
+            toolbarButtons: bold|italic|color|paragraphStyle|align
+            tab: Textos
+        section_texts_mobile:
+            label: 'Textos no mobile'
+            span: full
+            type: section
+            tab: Textos
+        title_mobile:
+            label: Título
+            size: small
+            span: full
+            type: richeditor
+            toolbarButtons: bold|italic|color|paragraphStyle|align
+            tab: Textos
+        text_mobile:
+            label: Texto
+            size: huge
+            span: full
+            type: richeditor
+            toolbarButtons: bold|italic|color|paragraphStyle|align
             tab: Textos
         section_style_text:
             label: 'Estilização do texto'

@@ -150,6 +150,11 @@ class Banners extends Model
                 else $attributes[$key]=$value;
             }
         }
+        $settings=Functions::getSettings();
+        if(!$settings->enabled_text_mobile){
+            if(isset($attributes['title'])) $attributes['title_mobile']=$attributes['title'];
+            if(isset($attributes['text'])) $attributes['text_mobile']=$attributes['text'];
+        }
         $this->attributes=$attributes;
     }
 

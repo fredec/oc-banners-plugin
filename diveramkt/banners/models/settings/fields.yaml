@@ -24,6 +24,10 @@ fields:
         label: textos
         span: full
         type: section
+    enabled_text_mobile:
+        label: 'Habilitar texto para o mobile'
+        span: full
+        type: switch
     enabled_position_text_options:
         label: 'Habilitar posições horizontal'
         options:

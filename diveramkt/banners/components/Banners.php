@@ -118,7 +118,7 @@ class Banners extends ComponentBase
 
 	public function onRun(){
 		$settings=Functions::getSettings();
-		$this->addJs('/plugins/diveramkt/banners/assets/js/scripts.js');
+		$this->addJs('/plugins/diveramkt/banners/assets/js/scripts.js',['defer' => true]);
 		if($this->property('category')){
 			if(is_numeric($this->property('category'))) $categoria=Categorias::where('id',$this->property('category'))->first();
 			else $categoria=Categorias::where('slug',$this->property('category'))->first();

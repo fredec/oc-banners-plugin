@@ -38,6 +38,12 @@ class Plugin extends PluginBase
                     if(!$settings->enabled_image_mobile) $widget->removeField('image_mobile');
                     if(!$settings->enabled_image_tablet) $widget->removeField('image_tablet');
 
+                    if(!$settings->enabled_text_mobile){
+                        $widget->removeField('section_texts_mobile');
+                        $widget->removeField('title_mobile');
+                        $widget->removeField('text_mobile');
+                    }
+
                     $positions=[ 'horizontal' => 1, 'vertical' => 1 ];
                     if(!$settings->enabled_position_text_options){
                         $widget->removeField('position');
