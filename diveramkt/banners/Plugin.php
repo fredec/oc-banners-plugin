@@ -44,6 +44,24 @@ class Plugin extends PluginBase
                         $widget->removeField('text_mobile');
                     }
 
+                    $title=true; $text=true;
+                    if(isset($settings->enabled_title) && !$settings->enabled_title){
+                        $title=false;
+                        $widget->removeField('title');
+                    }
+                    if(isset($settings->enabled_text) && !$settings->enabled_text){
+                        $text=false;
+                        $widget->removeField('text');
+                    }
+                    if(!$text && !$title){
+                        $widget->removeField('section_position');
+                        $widget->removeField('position');
+                        $widget->removeField('position_vertical');
+                        $widget->removeField('section_texts');
+                        $widget->removeField('section_style_text');
+                        $widget->removeField('color_text');
+                    }
+
                     $positions=[ 'horizontal' => 1, 'vertical' => 1 ];
                     if(!$settings->enabled_position_text_options){
                         $widget->removeField('position');

@@ -113,12 +113,20 @@ class Banners extends ComponentBase
 			// 	'default'           => '0',
 			// 	'group'           => 'Banner por posição',
 			// ],
+			'js_manual' => [
+				'title' => 'JS Manual',
+				'description' => 'Adicionar o js manual, variável: addFilesJs',
+				'default' => false,
+				'type' => 'checkbox',
+			],
 		];
 	}
 
+	public $addFilesJs=[];
 	public function onRun(){
 		$settings=Functions::getSettings();
-		$this->addJs('/plugins/diveramkt/banners/assets/js/scripts.js',['defer' => true]);
+		$this->addFilesJs=['/plugins/diveramkt/banners/assets/js/scripts.js'];
+		if(!$this->property('js_manual')) $this->addJs(url($this->addFilesJs[0]),['defer' => true]);
 		if($this->property('category')){
 			if(is_numeric($this->property('category'))) $categoria=Categorias::where('id',$this->property('category'))->first();
 			else $categoria=Categorias::where('slug',$this->property('category'))->first();

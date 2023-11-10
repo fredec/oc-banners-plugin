@@ -1,4 +1,14 @@
 fields:
+    enabled_title:
+        label: 'Habilitar título'
+        span: auto
+        default: 1
+        type: switch
+    enabled_text:
+        label: 'Habilitar texto'
+        span: auto
+        default: 1
+        type: switch
     enabled_image_mobile:
         label: 'Habilitar banner no mobile'
         span: auto
