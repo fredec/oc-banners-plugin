@@ -132,7 +132,8 @@ class Banners extends ComponentBase
 			else $categoria=Categorias::where('slug',$this->property('category'))->first();
 			if(isset($categoria->id)) $records=$categoria->banners;
 		}else{
-			$records=get_banners::enabled()->get();
+			// $records=get_banners::enabled()->get();
+			return;
 		}
 
 		$height=preg_replace("/[^0-9]/", "", $this->property('resize_height')); if(!$height) $height='auto';
@@ -291,6 +292,7 @@ public function getCategoryOptions(){
 	$return=[];
 	$categorias=Categorias::get();
 	if(isset($categorias[0]->id)){
+		$return[]='Selecionar';
 		foreach ($categorias as $key => $value) {
 			$return[$value->slug]=$value->title;
 		}
