@@ -237,7 +237,7 @@ class Banners extends ComponentBase
 					}else $record->banner_mobile_resized=url($banner_mobile);
 
 					$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_mobile_resized);
-					if(file_exists($image)){
+					if(file_exists($record->banner_mobile_resized)){
 						$size=getimagesize($record->banner_mobile_resized);
 						if(isset($size[0])) $record->banner_mobile_resized_width=$size[0];
 						if(isset($size[1])) $record->banner_mobile_resized_height=$size[1];
