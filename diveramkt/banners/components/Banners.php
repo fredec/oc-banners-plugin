@@ -221,10 +221,16 @@ class Banners extends ComponentBase
 
 			if($settings->enabled_image_mobile){
 			// ///////////////MOBILE
-				if(!$record->banner_mobile || !file_exists(str_replace('/storage', 'storage', $record->banner_mobile))){
+				// if(!$record->banner_mobile || !file_exists(str_replace('/storage', 'storage', $record->banner_mobile))){
+				// 	$record->banner_mobile=$record->banner;
+				// 	$banner_mobile=$record->banner;
+				// }else $banner_mobile=$record->banner_mobile;
+
+				if(!$record->banner_mobile){
 					$record->banner_mobile=$record->banner;
 					$banner_mobile=$record->banner;
 				}else $banner_mobile=$record->banner_mobile;
+				
 				if(!empty($banner_mobile)){
 					$image_mobile=false;
 					if($this->resize_mobile){
