@@ -107,6 +107,22 @@ tabs:
             type: fileupload
             commentAbove: 'Arquivos permitidos: mp4, ogg, webm'
             tab: Mídia
+        video_mobile:
+            label: 'Arquivo de vídeo mobile'
+            mode: file
+            fileTypes: 'mp4, ogg, webm'
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: full
+            trigger:
+                action: show
+                field: type
+                condition: 'value[2]'
+            type: fileupload
+            commentAbove: 'Arquivos permitidos: mp4, ogg, webm'
+            tab: Mídia
         section_position:
             label: 'Posição do texto'
             span: full
