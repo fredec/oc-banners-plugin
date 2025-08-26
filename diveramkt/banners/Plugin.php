@@ -71,6 +71,7 @@ class Plugin extends PluginBase
                         $widget->removeField('position_vertical');
                         $positions['vertical']=0;
                     }
+                    if(!$settings->enabled_image_side) $widget->removeField('image_side');
                     if(!$positions['horizontal'] && !$positions['vertical']) $widget->removeField('section_position');
                     if(!$settings->enabled_text_color){
                         $widget->removeField('color_text');

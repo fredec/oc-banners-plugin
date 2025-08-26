@@ -119,13 +119,25 @@ class Banners extends ComponentBase
 				'default' => false,
 				'type' => 'checkbox',
 			],
+			'type_js' => [
+				'title' => 'Tipo carregamento script',
+				'description' => 'Selecione o tipo de script utilizado no site',
+				'type' => 'dropdown',
+				'default' => 0,
+				'options' => [
+					0 => 'Jquery',
+					1 => 'Snowboard Winter',
+				],
+			],
 		];
 	}
 
 	public $addFilesJs=[];
 	public function onRun(){
+
 		$settings=Functions::getSettings();
-		$this->addFilesJs=['/plugins/diveramkt/banners/assets/js/scripts.js'];
+		if(!$this->property('type_js')) $this->addFilesJs=['/plugins/diveramkt/banners/assets/js/scripts.js'];
+		elseif($this->property('type_js') == 1) $this->addFilesJs=['/plugins/diveramkt/banners/assets/js/scripts_snowboard.js'];
 		if(!$this->property('js_manual')) $this->addJs(url($this->addFilesJs[0]),['defer' => true]);
 		if($this->property('category')){
 			if(is_numeric($this->property('category'))) $categoria=Categorias::where('id',$this->property('category'))->first();
@@ -172,90 +184,95 @@ class Banners extends ComponentBase
 			];
 		}
 
-		$records->each(function($record) use ($settings) {
-			$image=false;
-			if($this->resize){
-				if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image = new \Diveramkt\Uploads\Classes\Image($record->banner);
-				elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image = new \ToughDeveloper\ImageResizer\Classes\Image($record->banner);
-			}
-			if($image){
-				$record->banner_resized=$image->resize($this->resize['width'], $this->resize['height'], ['mode' => $this->resize['mode'], 'quality' => 80]);
-			}else $record->banner_resized=url($record->banner);
-
-			$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_resized);
-			if(file_exists($image)){
-				$size=getimagesize($image);
-				if(isset($size[0])) $record->banner_resized_width=$size[0];
-				if(isset($size[1])) $record->banner_resized_height=$size[1];
-			}
-			if(!isset($record->banner_resized_width) && isset($this->resize['width'])) $record->banner_resized_width=$this->resize['width'];
-			if(!isset($record->banner_resized_height) && isset($this->resize['height'])) $record->banner_resized_height=$this->resize['height'];
-
-			if($settings->enabled_image_tablet){
-			// ///////////////TABLET
-				if(!$record->banner_tablet || !file_exists(str_replace('/storage', 'storage', $record->banner_tablet))){
-					$record->banner_tablet=$record->banner;
-					$banner_tablet=$record->banner;
-				}else $banner_tablet=$record->banner_tablet;
-				if(!empty($banner_tablet)){
-					$image_tablet=false;
-					if($this->resize_tablet){
-						if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image_tablet = new \Diveramkt\Uploads\Classes\Image($banner_tablet);
-						elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image_tablet = new \ToughDeveloper\ImageResizer\Classes\Image($banner_tablet);
-					}
-					if($image_tablet){
-						$record->banner_tablet_resized=$image_tablet->resize($this->resize_tablet['width'], $this->resize_tablet['height'], ['mode' => $this->resize_tablet['mode'], 'quality' => 80]);
-					}else $record->banner_tablet_resized=url($banner_tablet);
-
-					$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_tablet_resized);
-					if(file_exists($image)){
-						$size=getimagesize($record->banner_tablet_resized);
-						if(isset($size[0])) $record->banner_tablet_resized_width=$size[0];
-						if(isset($size[1])) $record->banner_tablet_resized_height=$size[1];
-					}
+		if(isset($records) && count($records)){
+			$records->each(function($record) use ($settings) {
+				$image=false;
+				if($this->resize){
+					$path_image=trim(str_replace(' /storage', 'storage', ' '.$record->banner));
+					if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image = new \Diveramkt\Uploads\Classes\Image($path_image);
+					elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image = new \ToughDeveloper\ImageResizer\Classes\Image($path_image);
 				}
-				if(!isset($record->banner_tablet_resized_width) && isset($this->resize_tablet['width'])) $record->banner_tablet_resized_width=$this->resize_tablet['width'];
-				if(!isset($record->banner_tablet_resized_height) && isset($this->resize_tablet['height'])) $record->banner_tablet_resized_height=$this->resize_tablet['height'];
-			// ///////////////TABLET
-			}
+				if($image){
+					$record->banner_resized=$image->resize($this->resize['width'], $this->resize['height'], ['mode' => $this->resize['mode'], 'quality' => 80]);
+				}else $record->banner_resized=url($record->banner);
 
-			if($settings->enabled_image_mobile){
+				$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_resized);
+				if(file_exists($image)){
+					$size=getimagesize($image);
+					if(isset($size[0])) $record->banner_resized_width=$size[0];
+					if(isset($size[1])) $record->banner_resized_height=$size[1];
+				}
+				if(!isset($record->banner_resized_width) && isset($this->resize['width'])) $record->banner_resized_width=$this->resize['width'];
+				if(!isset($record->banner_resized_height) && isset($this->resize['height'])) $record->banner_resized_height=$this->resize['height'];
+
+				if($settings->enabled_image_tablet){
+			// ///////////////TABLET
+					if(!$record->banner_tablet || !file_exists(str_replace('/storage', 'storage', $record->banner_tablet))){
+						$record->banner_tablet=$record->banner;
+						$banner_tablet=$record->banner;
+					}else $banner_tablet=$record->banner_tablet;
+					if(!empty($banner_tablet)){
+						$image_tablet=false;
+						if($this->resize_tablet){
+							$path_image=trim(str_replace(' /storage', 'storage', ' '.$banner_tablet));
+							if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image_tablet = new \Diveramkt\Uploads\Classes\Image($path_image);
+							elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image_tablet = new \ToughDeveloper\ImageResizer\Classes\Image($path_image);
+						}
+						if($image_tablet){
+							$record->banner_tablet_resized=$image_tablet->resize($this->resize_tablet['width'], $this->resize_tablet['height'], ['mode' => $this->resize_tablet['mode'], 'quality' => 80]);
+						}else $record->banner_tablet_resized=url($banner_tablet);
+
+						$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_tablet_resized);
+						if(file_exists($image)){
+							$size=getimagesize($record->banner_tablet_resized);
+							if(isset($size[0])) $record->banner_tablet_resized_width=$size[0];
+							if(isset($size[1])) $record->banner_tablet_resized_height=$size[1];
+						}
+					}
+					if(!isset($record->banner_tablet_resized_width) && isset($this->resize_tablet['width'])) $record->banner_tablet_resized_width=$this->resize_tablet['width'];
+					if(!isset($record->banner_tablet_resized_height) && isset($this->resize_tablet['height'])) $record->banner_tablet_resized_height=$this->resize_tablet['height'];
+			// ///////////////TABLET
+				}
+
+				if($settings->enabled_image_mobile){
 			// ///////////////MOBILE
 				// if(!$record->banner_mobile || !file_exists(str_replace('/storage', 'storage', $record->banner_mobile))){
 				// 	$record->banner_mobile=$record->banner;
 				// 	$banner_mobile=$record->banner;
 				// }else $banner_mobile=$record->banner_mobile;
 
-				if(!$record->banner_mobile){
-					$record->banner_mobile=$record->banner;
-					$banner_mobile=$record->banner;
-				}else $banner_mobile=$record->banner_mobile;
-				
-				if(!empty($banner_mobile)){
-					$image_mobile=false;
-					if($this->resize_mobile){
-						if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image_mobile = new \Diveramkt\Uploads\Classes\Image($banner_mobile);
-						elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image_mobile = new \ToughDeveloper\ImageResizer\Classes\Image($banner_mobile);
-					}
-					if($image_mobile){
-						$record->banner_mobile_resized=$image_mobile->resize($this->resize_mobile['width'], $this->resize_mobile['height'], ['mode' => $this->resize_mobile['mode'], 'quality' => 80]);
+					if(!$record->banner_mobile){
+						$record->banner_mobile=$record->banner;
+						$banner_mobile=$record->banner;
+					}else $banner_mobile=$record->banner_mobile;
 
-					}else $record->banner_mobile_resized=url($banner_mobile);
+					if(!empty($banner_mobile)){
+						$image_mobile=false;
+						if($this->resize_mobile){
+							$path_image=trim(str_replace(' /storage', 'storage', ' '.$banner_mobile));
+							if(class_exists('\Diveramkt\Uploads\Classes\Image')) $image_mobile = new \Diveramkt\Uploads\Classes\Image($path_image);
+							elseif(class_exists('\ToughDeveloper\ImageResizer\Classes\Image')) $image_mobile = new \ToughDeveloper\ImageResizer\Classes\Image($path_image);
+						}
+						if($image_mobile){
+							$record->banner_mobile_resized=$image_mobile->resize($this->resize_mobile['width'], $this->resize_mobile['height'], ['mode' => $this->resize_mobile['mode'], 'quality' => 80]);
 
-					$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_mobile_resized);
-					if(file_exists($record->banner_mobile_resized)){
-						$size=getimagesize($record->banner_mobile_resized);
-						if(isset($size[0])) $record->banner_mobile_resized_width=$size[0];
-						if(isset($size[1])) $record->banner_mobile_resized_height=$size[1];
+						}else $record->banner_mobile_resized=url($banner_mobile);
+
+						$image=str_replace([url('/').'/',url('/')], ['',''], $record->banner_mobile_resized);
+						if(file_exists($record->banner_mobile_resized)){
+							$size=getimagesize($record->banner_mobile_resized);
+							if(isset($size[0])) $record->banner_mobile_resized_width=$size[0];
+							if(isset($size[1])) $record->banner_mobile_resized_height=$size[1];
+						}
 					}
-				}
-				if(!isset($record->banner_mobile_resized_width) && isset($this->resize_mobile['width'])) $record->banner_mobile_resized_width=$this->resize_mobile['width'];
-				if(!isset($record->banner_mobile_resized_height) && isset($this->resize_mobile['height'])) $record->banner_mobile_resized_height=$this->resize_mobile['height'];
+					if(!isset($record->banner_mobile_resized_width) && isset($this->resize_mobile['width'])) $record->banner_mobile_resized_width=$this->resize_mobile['width'];
+					if(!isset($record->banner_mobile_resized_height) && isset($this->resize_mobile['height'])) $record->banner_mobile_resized_height=$this->resize_mobile['height'];
 			// ///////////////MOBILE
-			}
-		});
-
+				}
+			});
 $this->records=$records;
+}
+
 }
 
 	// public function registerMarkupTags()

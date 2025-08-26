@@ -23,6 +23,11 @@ fields:
         span: auto
         default: 0
         type: switch
+    enabled_image_side:
+        label: 'Habilitar imagem na lateral'
+        span: auto
+        default: 0
+        type: switch
     types_midias:
         label: 'Tipos de arquivos além das imagens'
         options:

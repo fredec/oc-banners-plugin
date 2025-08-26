@@ -146,9 +146,19 @@ tabs:
         title:
             label: Título
             size: small
-            span: full
+            span: auto
             type: richeditor
             toolbarButtons: bold|italic|color|paragraphStyle|align
+            tab: Textos
+        image_side:
+            label: 'Imagem na lateral'
+            mode: image
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: right
+            type: fileupload
             tab: Textos
         text:
             label: Texto

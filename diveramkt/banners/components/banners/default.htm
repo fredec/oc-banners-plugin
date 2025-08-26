@@ -2,7 +2,7 @@
 {% for record in __SELF__.records %}
 <div class="image">
 	{% if record.url %}
-	<a href="{{record.url}}" {{record.target}} title="{{record.link}}" class="{{__SELF__}}_add_clicks _add_clicks" data-request-data="'id': '{{record.id}}'">
+	<a href="{{record.url}}" {{record.target}} title="{{record.link}}" class="{{__SELF__}}_add_clicks _add_clicks" data-id="{{record.id}}" data-request-data="'id': '{{record.id}}'">
 		{% endif %}
 		{% if record.type == 0 %}
 		{% if record.banner_mobile_resized %} <img class="d-block d-sm-none visible-xs" width="{{record.banner_mobile_resized_width}}" height="{{record.banner_mobile_resized_height}}" src="{{record.banner_mobile_resized}}" alt="{{record.label}}" {{key?'loading="lazy"'}} /> {% endif %}
