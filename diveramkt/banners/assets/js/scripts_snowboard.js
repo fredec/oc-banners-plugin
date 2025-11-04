@@ -1,21 +1,27 @@
 document.addEventListener("DOMContentLoaded", function() {
 	var banners_noredirect=0, banner_redirect_url='';
 	document.addEventListener('click', function (e) {
-		if (e.target.closest('a._add_clicks')) {
+		var link=false;
+		if(e.target.classList.contains('_add_clicks')){
+			link=e.target;
+		}else if (e.target.closest('a._add_clicks')) {
+			link=e.target.closest('a._add_clicks')
+		}
+		if(link){
 			banners_noredirect=0;
-			banner_redirect_url=e.target.href;
+			banner_redirect_url=link.href;
 
-			if(e.target.target == '_blank'){
-				e.target.removeAttribute('data-request');
+			if(link.target == '_blank'){
+				link.removeAttribute('data-request');
 				noredirect=1;
 			}else{
 				noredirect=0;
 				e.preventDefault();
 			}
 
-			Snowboard.request(e.target, 'onBannersAddClick', {
+			Snowboard.request(link, 'onBannersAddClick', {
 				loading: true,
-				data: { noredirect: noredirect, id: e.target.getAttribute('data-id') },
+				data: { noredirect: noredirect, id: link.getAttribute('data-id') },
 				success: () => {
 					if (!noredirect) {
 						location.href = banner_redirect_url;

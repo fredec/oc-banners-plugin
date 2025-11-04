@@ -160,6 +160,18 @@ tabs:
             span: right
             type: fileupload
             tab: Textos
+        video_side:
+            label: 'Vídeo na lateral - MP4'
+            mode: file
+            fileTypes: mp4
+            mimeTypes: mp4
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: right
+            type: fileupload
+            tab: Textos
         text:
             label: Texto
             size: huge

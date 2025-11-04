@@ -56,6 +56,7 @@ class Banners extends Model
         'video' => 'System\Models\File',
         'video_mobile' => 'System\Models\File',
         'image_side' => 'System\Models\File',
+        'video_side' => 'System\Models\File',
     ];
 
     public $belongsToMany = [

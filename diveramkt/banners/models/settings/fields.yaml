@@ -28,6 +28,11 @@ fields:
         span: auto
         default: 0
         type: switch
+    enabled_video_side:
+        label: 'Habilitar vídeo na lateral'
+        span: auto
+        default: 0
+        type: switch
     types_midias:
         label: 'Tipos de arquivos além das imagens'
         options:
