@@ -15,7 +15,12 @@ document.addEventListener("DOMContentLoaded", function() {
 				link.removeAttribute('data-request');
 				noredirect=1;
 			}else{
-				noredirect=0;
+				const urlLimpa = window.location.origin + window.location.pathname;
+				if (urlLimpa === banner_redirect_url.split('#')[0] || urlLimpa+'/' === banner_redirect_url.split('#')[0]) {
+					noredirect=1;
+				}else{
+					noredirect=0;
+				}
 				e.preventDefault();
 			}
 

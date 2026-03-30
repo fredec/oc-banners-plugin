@@ -2,6 +2,7 @@
 
 use Request;
 use Diveramkt\Banners\Models\Settings;
+use System\Models\PluginVersion;
 
 class Functions
 {
@@ -60,6 +61,28 @@ class Functions
     if(!strpos("[".$string."]", "+")) $link='+55'.$link;
     else $link='+'.$link;
     return 'tel:'.$link;
+  }
+
+  public static $getIsTranslate=null;
+  public static function isTranslate() :bool {
+    if(!Self::$getIsTranslate){
+      $plugins=new PluginVersion();
+      Self::$getIsTranslate=class_exists('\RainLab\Translate\Classes\Translator') && class_exists('\RainLab\Translate\Models\Message') && $plugins->where('code','RainLab.Translate')->ApplyEnabled()->count();
+    }
+    return Self::$getIsTranslate;
+  }
+
+  public static $getActiveLangCacheReady=false;
+  public static $getActiveLangCache=false;
+  public static function getActiveLang(){
+    if(!Self::$getActiveLangCacheReady){
+      Self::$getActiveLangCacheReady=1;
+      if(Self::isTranslate()){
+        $translator=\RainLab\Translate\Classes\Translator::instance();
+        Self::$getActiveLangCache=$translator->getLocale();
+      }
+    }
+    return Self::$getActiveLangCache;
   }
 
 }

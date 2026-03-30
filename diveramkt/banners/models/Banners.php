@@ -162,9 +162,13 @@ class Banners extends Model
     }
 
     public function getUrlAttribute(){
+        $activeLang=Functions::getActiveLang();
         if(!empty($this->link)){
             $url='';
-            if($this->type_link == 'link') $url=Functions::prep_url($this->link);
+            if($this->type_link == 'link'){
+                $url=Functions::prep_url($this->link);
+                if($activeLang) $url=str_replace(url('/'), url('/'.$activeLang).'/', $url);
+            }
             elseif($this->type_link == 'phone') $url=Functions::phone_link($this->link);
             elseif($this->type_link == 'whatsapp') $url=Functions::whats_link($this->link, $this->text_link);
             return $url;
